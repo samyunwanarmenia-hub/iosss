@@ -62,9 +62,23 @@ jobs:
           rm -rf ~/Library/Developer/Xcode/DerivedData/*
           echo "✅ Cleaned Xcode derived data"
 
+      - name: Check Swift files
+        run: |
+          echo "=== Checking Swift source files ==="
+          if [ -f "ios/App/App/AppDelegate.swift" ]; then
+            echo "✅ AppDelegate.swift exists"
+            echo "First 20 lines:"
+            head -20 ios/App/App/AppDelegate.swift
+          else
+            echo "❌ AppDelegate.swift not found!"
+          fi
+
       - name: Build archive (unsigned)
         run: |
           mkdir -p build
+          
+          # Build with xcpretty for better error output
+          set -o pipefail
           
           xcodebuild -workspace ios/App/App.xcworkspace \
             -scheme App \
@@ -81,13 +95,21 @@ jobs:
           BUILD_EXIT_CODE=${PIPESTATUS[0]}
           
           if [ $BUILD_EXIT_CODE -ne 0 ]; then
+            echo ""
             echo "❌ Build failed with exit code: $BUILD_EXIT_CODE"
             echo ""
-            echo "=== Error Summary ==="
-            grep -i "error:" build.log | head -30 || echo "No explicit errors found"
+            echo "=== SWIFT COMPILATION ERRORS ==="
+            # Extract actual Swift errors with more context
+            grep -B 2 -A 5 "error:" build.log | grep -v "^--$" || echo "No errors with 'error:' marker"
             echo ""
-            echo "=== Last 100 lines ==="
-            tail -100 build.log
+            echo "=== SWIFT COMPILER OUTPUT ==="
+            grep -i "swift.*compil" build.log | head -20 || echo "No Swift compilation output"
+            echo ""
+            echo "=== FAILED COMMANDS ==="
+            grep -A 3 "following build commands failed" build.log || echo "No failed commands section"
+            echo ""
+            echo "=== RAW ERROR CONTEXT (last 150 lines) ==="
+            tail -150 build.log
             exit 1
           fi
           
@@ -119,24 +141,28 @@ jobs:
           path: build/App-unsigned.ipa
           retention-days: 30
 
-      - name: Upload build logs (on failure)
-        if: failure()
+      - name: Upload build logs (always)
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: build-logs
           path: build.log
           retention-days: 7
 
-      - name: Show detailed errors (on failure)
+      - name: Show detailed Swift errors (on failure)
         if: failure()
         run: |
-          echo "=== Full Error Analysis ==="
+          echo "=== DETAILED ERROR ANALYSIS ==="
           echo ""
-          echo "=== Compilation Errors ==="
-          grep -i "error:" build.log | head -50 || echo "No errors found"
+          echo "=== All error: lines ==="
+          grep "error:" build.log || echo "No lines with 'error:' found"
           echo ""
-          echo "=== Build Failures ==="
-          grep -i "failed" build.log | head -30 || echo "No failures found"
+          echo "=== All warning: lines ==="
+          grep "warning:" build.log | head -20 || echo "No warnings"
           echo ""
-          echo "=== Full Build Log (last 200 lines) ==="
-          tail -200 build.log
+          echo "=== Swift compilation context ==="
+          # Find Swift compilation sections
+          awk '/SwiftCompile normal arm64/,/\*\* BUILD FAILED \*\*|\*\* ARCHIVE FAILED \*\*/ {print}' build.log | tail -100
+          echo ""
+          echo "=== Checking for common issues ==="
+          grep -i "no such module\|cannot find\|undeclared\|use of unresolved" build.log | head -30 || echo "No common Swift errors found"
