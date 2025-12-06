@@ -31,91 +31,51 @@ jobs:
 
       - name: Ensure MainViewController exists
         run: |
-          echo "=== Checking MainViewController.swift ==="
-          
-          # Create MainViewController if it doesn't exist
           if [ ! -f "ios/App/App/MainViewController.swift" ]; then
-            echo "⚠️  MainViewController.swift not found - creating it..."
-            cat > ios/App/App/MainViewController.swift << 'EOF'
-import UIKit
-import Capacitor
-import WebKit
-
-@objc(MainViewController)
-class MainViewController: CAPBridgeViewController {
-    override open func webViewConfiguration(for instanceConfiguration: InstanceConfiguration) -> WKWebViewConfiguration {
-        let configuration = super.webViewConfiguration(for: instanceConfiguration)
-        configuration.preferences.javaScriptEnabled = true
-        configuration.preferences.javaScriptCanOpenWindowsAutomatically = true
-        configuration.setValue(true, forKey: "allowFileAccessFromFileURLs")
-        configuration.setValue(true, forKey: "allowUniversalAccessFromFileURLs")
-        configuration.allowsInlineMediaPlayback = true
-        configuration.suppressesIncrementalRendering = false
-        return configuration
-    }
-    
-    override open func webView(with frame: CGRect, configuration: WKWebViewConfiguration) -> WKWebView {
-        let webView = super.webView(with: frame, configuration: configuration)
-        webView.allowsBackForwardNavigationGestures = true
-        webView.allowsLinkPreview = false
-        return webView
-    }
-    
-    func applyRuntimePreferences() {
-        guard let webView = bridge?.webView else { return }
-        webView.configuration.preferences.javaScriptEnabled = true
-        webView.configuration.preferences.javaScriptCanOpenWindowsAutomatically = true
-        webView.configuration.setValue(true, forKey: "allowFileAccessFromFileURLs")
-        webView.configuration.setValue(true, forKey: "allowUniversalAccessFromFileURLs")
-    }
-    
-    override open func viewDidLoad() {
-        super.viewDidLoad()
-        applyRuntimePreferences()
-    }
-}
-EOF
-            echo "✅ MainViewController.swift created"
+            echo "Creating MainViewController.swift..."
+            cat > ios/App/App/MainViewController.swift << 'SWIFTEOF'
+          import UIKit
+          import Capacitor
+          import WebKit
+          
+          @objc(MainViewController)
+          class MainViewController: CAPBridgeViewController {
+              override open func webViewConfiguration(for instanceConfiguration: InstanceConfiguration) -> WKWebViewConfiguration {
+                  let configuration = super.webViewConfiguration(for: instanceConfiguration)
+                  configuration.preferences.javaScriptEnabled = true
+                  configuration.preferences.javaScriptCanOpenWindowsAutomatically = true
+                  configuration.setValue(true, forKey: "allowFileAccessFromFileURLs")
+                  configuration.setValue(true, forKey: "allowUniversalAccessFromFileURLs")
+                  configuration.allowsInlineMediaPlayback = true
+                  configuration.suppressesIncrementalRendering = false
+                  return configuration
+              }
+              
+              override open func webView(with frame: CGRect, configuration: WKWebViewConfiguration) -> WKWebView {
+                  let webView = super.webView(with: frame, configuration: configuration)
+                  webView.allowsBackForwardNavigationGestures = true
+                  webView.allowsLinkPreview = false
+                  return webView
+              }
+              
+              func applyRuntimePreferences() {
+                  guard let webView = bridge?.webView else { return }
+                  webView.configuration.preferences.javaScriptEnabled = true
+                  webView.configuration.preferences.javaScriptCanOpenWindowsAutomatically = true
+                  webView.configuration.setValue(true, forKey: "allowFileAccessFromFileURLs")
+                  webView.configuration.setValue(true, forKey: "allowUniversalAccessFromFileURLs")
+              }
+              
+              override open func viewDidLoad() {
+                  super.viewDidLoad()
+                  applyRuntimePreferences()
+              }
+          }
+          SWIFTEOF
+            echo "MainViewController.swift created"
           else
-            echo "✅ MainViewController.swift exists"
+            echo "MainViewController.swift already exists"
           fi
-
-      - name: Add MainViewController to Xcode project
-        run: |
-          echo "=== Adding MainViewController to Xcode project ==="
-          
-          # Install xcodeproj gem for manipulating Xcode projects
-          sudo gem install xcodeproj
-          
-          # Create Ruby script
-          cat > add_file.rb <<'ENDRUBY'
-require 'xcodeproj'
-
-project_path = 'ios/App/App.xcodeproj'
-project = Xcodeproj::Project.open(project_path)
-
-app_group = project.main_group.find_subpath('App', true)
-
-file_exists = app_group.files.any? { |file| file.path == 'MainViewController.swift' }
-
-unless file_exists
-  puts "Adding MainViewController.swift to project..."
-  file_ref = app_group.new_reference('MainViewController.swift')
-  target = project.targets.find { |t| t.name == 'App' }
-  if target
-    target.add_file_references([file_ref])
-    puts "MainViewController.swift added to target"
-  else
-    puts "App target not found"
-  end
-  project.save
-  puts "Project saved"
-else
-  puts "MainViewController.swift already in project"
-end
-ENDRUBY
-          
-          ruby add_file.rb
 
       - name: Install CocoaPods
         run: |
@@ -128,36 +88,27 @@ ENDRUBY
         working-directory: ios/App
         run: pod install
 
-      - name: Verify project structure
+      - name: Verify workspace
         run: |
-          echo "=== Verifying files ==="
-          ls -la ios/App/App/*.swift || echo "No Swift files found"
-          echo ""
-          echo "=== Checking workspace ==="
           if [ ! -d "ios/App/App.xcworkspace" ]; then
-            echo "❌ Error: App.xcworkspace not found!"
+            echo "Error: App.xcworkspace not found!"
             exit 1
           fi
-          echo "✅ Workspace found"
+          echo "Workspace found"
 
       - name: Disable code signing
         run: |
-          sed -i.bak 's/ProvisioningStyle = Automatic;/ProvisioningStyle = Manual;/g' ios/App/App.xcodeproj/project.pbxproj
-          sed -i.bak 's/CODE_SIGN_STYLE = Automatic;/CODE_SIGN_STYLE = Manual;/g' ios/App/App.xcodeproj/project.pbxproj
-          sed -i.bak 's/CODE_SIGN_IDENTITY = "Apple Development";//g' ios/App/App.xcodeproj/project.pbxproj
-          sed -i.bak 's/DEVELOPMENT_TEAM = .*/DEVELOPMENT_TEAM = "";/' ios/App/App.xcodeproj/project.pbxproj
-          rm -f ios/App/App.xcodeproj/project.pbxproj.bak
+          sed -i '' 's/ProvisioningStyle = Automatic;/ProvisioningStyle = Manual;/g' ios/App/App.xcodeproj/project.pbxproj
+          sed -i '' 's/CODE_SIGN_STYLE = Automatic;/CODE_SIGN_STYLE = Manual;/g' ios/App/App.xcodeproj/project.pbxproj
+          sed -i '' 's/CODE_SIGN_IDENTITY = "Apple Development";//g' ios/App/App.xcodeproj/project.pbxproj
+          sed -i '' 's/DEVELOPMENT_TEAM = .*/DEVELOPMENT_TEAM = "";/' ios/App/App.xcodeproj/project.pbxproj
 
       - name: Clean build cache
-        run: |
-          rm -rf ~/Library/Developer/Xcode/DerivedData/*
-          echo "✅ Cleaned Xcode derived data"
+        run: rm -rf ~/Library/Developer/Xcode/DerivedData/*
 
-      - name: Build archive (unsigned)
+      - name: Build archive
         run: |
           mkdir -p build
-          
-          set -o pipefail
           
           xcodebuild -workspace ios/App/App.xcworkspace \
             -scheme App \
@@ -171,30 +122,21 @@ ENDRUBY
             PROVISIONING_PROFILE_SPECIFIER="" \
             archive 2>&1 | tee build.log
           
-          BUILD_EXIT_CODE=${PIPESTATUS[0]}
-          
-          if [ $BUILD_EXIT_CODE -ne 0 ]; then
-            echo ""
-            echo "❌ Build failed with exit code: $BUILD_EXIT_CODE"
-            echo ""
-            echo "=== SWIFT COMPILATION ERRORS ==="
-            grep "error:" build.log | head -30 || echo "No errors found"
-            echo ""
-            echo "=== Last 150 lines ==="
-            tail -150 build.log
+          if [ ${PIPESTATUS[0]} -ne 0 ]; then
+            echo "Build failed!"
+            echo "=== Errors ==="
+            grep "error:" build.log | head -30
+            echo "=== Last 100 lines ==="
+            tail -100 build.log
             exit 1
           fi
-          
-          echo "✅ Archive build completed successfully"
 
-      - name: Verify archive structure
+      - name: Verify archive
         run: |
           if [ ! -d "build/App.xcarchive/Products/Applications/App.app" ]; then
-            echo "❌ App.app not found in archive"
-            ls -la build/App.xcarchive/Products/Applications/ 2>/dev/null || echo "Applications directory missing"
+            echo "App.app not found!"
             exit 1
           fi
-          echo "✅ Archive structure verified"
 
       - name: Create IPA
         run: |
@@ -203,31 +145,19 @@ ENDRUBY
           cd build
           zip -qr App-unsigned.ipa Payload
           cd ..
-          echo "✅ IPA created successfully"
           ls -lh build/App-unsigned.ipa
 
-      - name: Upload IPA artifact
+      - name: Upload IPA
         uses: actions/upload-artifact@v4
         with:
           name: ios-app-unsigned
           path: build/App-unsigned.ipa
           retention-days: 30
 
-      - name: Upload build logs
+      - name: Upload logs
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: build-logs
           path: build.log
           retention-days: 7
-
-      - name: Show detailed errors (on failure)
-        if: failure()
-        run: |
-          echo "=== DETAILED ERROR ANALYSIS ==="
-          echo ""
-          echo "=== All errors ==="
-          grep "error:" build.log || echo "No errors"
-          echo ""
-          echo "=== Swift compilation issues ==="
-          grep -i "cannot find.*in scope\|use of unresolved\|no such module" build.log | head -20 || echo "No import errors"
