@@ -1,0 +1,46 @@
+[1mdiff --git a/.cursorrules b/.cursorrules[m
+[1mindex 9a5070f..59692e7 100644[m
+[1m--- a/.cursorrules[m
+[1m+++ b/.cursorrules[m
+[36m@@ -9,7 +9,7 @@[m
+ [m
+ [m
+ ОБЩИЕ ПРАВИЛА ДЛЯ АГЕНТА[m
+[31m-1) Запрещено пушить в main. Всегда PR.[m
+[32m+[m[32m1) Запрещено пушить в PR. Всегда main.[m
+ 2) Любая правка — через DIFF, с комментарием «зачем».[m
+ 3) Перед PR: pnpm verify (typecheck, lint, build, smoke). Логи прикладывать.[m
+ 4) Любая «предположительная» причина обязана иметь план воспроизведения (steps + логи).[m
+[1mdiff --git a/src/app/api/notifyVisit/route.ts b/src/app/api/notifyVisit/route.ts[m
+[1mindex 87a936d..0cac8b6 100644[m
+[1m--- a/src/app/api/notifyVisit/route.ts[m
+[1m+++ b/src/app/api/notifyVisit/route.ts[m
+[36m@@ -3,14 +3,14 @@[m [mimport { headers } from 'next/headers';[m
+ import { UAParser } from 'ua-parser-js';[m
+ import { NotifyVisitBody } from '@/types/global';[m
+ [m
+[31m-const TELEGRAM_BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN;[m
+[31m-const TELEGRAM_CHAT_ID = process.env.TELEGRAM_CHAT_ID;[m
+[31m-[m
+[31m-export async function POST(request: Request) {[m
+[31m-  if (!TELEGRAM_BOT_TOKEN || !TELEGRAM_CHAT_ID) {[m
+[31m-    console.error('Missing Telegram credentials for notifyVisit.');[m
+[31m-    return NextResponse.json({ error: 'Server configuration error.' }, { status: 500 });[m
+[31m-  }[m
+[32m+[m[32mconst TELEGRAM_BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN;[m[41m[m
+[32m+[m[32mconst TELEGRAM_CHAT_ID = process.env.TELEGRAM_CHAT_ID;[m[41m[m
+[32m+[m[41m[m
+[32m+[m[32mexport async function POST(request: Request) {[m[41m[m
+[32m+[m[32m  if (!TELEGRAM_BOT_TOKEN || !TELEGRAM_CHAT_ID) {[m[41m[m
+[32m+[m[32m    console.error('Missing Telegram credentials for notifyVisit.');[m[41m[m
+[32m+[m[32m    return NextResponse.json({ error: 'Server configuration error.' }, { status: 500 });[m[41m[m
+[32m+[m[32m  }[m[41m[m
+ [m
+   try {[m
+     const headersList = headers();[m
+[36m@@ -126,4 +126,4 @@[m [m${utmParams ? `<b>📊 ${utmParams}</b>\n` : ''}[m
+     console.error('Error in notifyVisit function:', error instanceof Error ? error.message : error);[m
+     return NextResponse.json({ success: false, error: error instanceof Error ? error.message : 'An unknown error occurred.' }, { status: 500 });[m
+   }[m
+[31m-}[m
+[32m+[m[32m}[m[41m[m

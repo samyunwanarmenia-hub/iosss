@@ -1,0 +1,72 @@
+[build]
+  command = "pnpm run optimize-images && pnpm run build"
+  publish = ".next"
+
+[dev]
+  command = "pnpm run dev"
+  port = 3000
+
+[[plugins]]
+  package = "@netlify/plugin-nextjs"
+
+[[headers]]
+  for = "/optimized/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+# --- SEO Canonical Redirects ---
+[[redirects]]
+  from = "http://samyunwanarmenia.netlify.app/*"
+  to = "https://samyun-wan.life/:splat"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "https://samyunwanarmenia.netlify.app/*"
+  to = "https://samyun-wan.life/:splat"
+  status = 301
+  force = true
+
+# Force canonical domain for the qr-wan Netlify hostname
+[[redirects]]
+  from = "http://qr-wan.netlify.app/*"
+  to = "https://samyun-wan.life/:splat"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "https://qr-wan.netlify.app/*"
+  to = "https://samyun-wan.life/:splat"
+  status = 301
+  force = true
+
+# Force canonical domain + HTTPS (avoid www and http scheme)
+[[redirects]]
+  from = "http://www.samyun-wan.life/*"
+  to = "https://samyun-wan.life/:splat"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "https://www.samyun-wan.life/*"
+  to = "https://samyun-wan.life/:splat"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "http://samyun-wan.life/*"
+  to = "https://samyun-wan.life/:splat"
+  status = 301
+  force = true
+
+# Keep Netlify preview assets working while forcing canonical domain
+
+[[redirects]]
+  from = "/_next/*"
+  to = "/_next/:splat"
+  status = 200
+
+[[headers]]
+  for = "/_next/static/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"

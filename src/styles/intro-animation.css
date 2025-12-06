@@ -1,0 +1,13 @@
+/* =================== intro-animation.css ==================== */
+/* Base styles for the new complex intro animation container */
+.intro-animation-container.new-complex {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 1000;
+  background: var(--intro-bg-main); /* Use CSS variable for background */
+  overflow: hidden;
+  text-align: center;
+}

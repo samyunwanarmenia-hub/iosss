@@ -1,0 +1,377 @@
+/* =================== animation04 ==================== */
+
+.animation04 {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  height: 100%;
+  z-index: 9999;
+}
+
+.animation04 .line_wrapper {
+  position: absolute;
+  opacity: 0;
+}
+
+.animation04 .line {
+  display: block;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-color: var(--intro-line-color);
+  opacity: 0;
+}
+
+/* =========== line01 =========== */
+
+.animation04 .line_wrapper01 {
+  top: -20%;
+  left: 50%;
+  width: 2.5%;
+  height: 30%;
+  animation: animation04_line_wrapper01 0.45s ease-in 0.8s forwards;
+}
+
+.animation04 .line01 {
+  animation: animation04_line01 0.45s ease-in 0.5s forwards;
+}
+
+@keyframes animation04_line_wrapper01 {
+  0% {
+    transform-origin: top;
+    transform: scale3d(1, 1, 1);
+    opacity: 1;
+  }
+  100% {
+    transform-origin: top;
+    transform: scale3d(1, 0, 1);
+    opacity: 1;
+  }
+}
+
+@keyframes animation04_line01 {
+  0% {
+    transform-origin: bottom;
+    transform: scale3d(1, 0, 1);
+    opacity: 1;
+  }
+  100% {
+    transform-origin: bottom;
+    transform: scale3d(1, 1, 1);
+    opacity: 1;
+  }
+}
+
+/* =========== line02 =========== */
+
+.animation04 .rotate45 {
+  display: block;
+  position: absolute;
+  top: 22.5%;
+  left: 50%;
+  width: 100%;
+  height: 100%;
+  transform: rotate(45deg);
+}
+
+.animation04 .line_wrapper02 {
+  width: 2.5%;
+  height: 30%;
+  animation: animation04_line_wrapper02 0.45s ease-in 0.8s forwards;
+}
+
+.animation04 .line02 {
+  animation: animation04_line02 0.45s ease-in 0.5s forwards;
+}
+
+@keyframes animation04_line_wrapper02 {
+  0% {
+    transform-origin: top;
+    transform: scale3d(1, 1, 1);
+    opacity: 1;
+  }
+  100% {
+    transform-origin: top;
+    transform: scale3d(1, 0, 1);
+    opacity: 1;
+  }
+}
+
+@keyframes animation04_line02 {
+  0% {
+    transform-origin: bottom;
+    transform: scale3d(1, 0, 1);
+    opacity: 1;
+  }
+  100% {
+    transform-origin: bottom;
+    transform: scale3d(1, 1, 1);
+    opacity: 1;
+  }
+}
+
+/* =========== line03 =========== */
+
+.animation04 .line_wrapper03 {
+  top: 50%;
+  left: 90%;
+  width: 30%;
+  height: 2.5%;
+  animation: animation04_line_wrapper03 0.45s ease-in 0.8s forwards;
+}
+
+.animation04 .line03 {
+  animation: animation04_line03 0.45s ease-in 0.5s forwards;
+}
+
+@keyframes animation04_line_wrapper03 {
+  0% {
+    transform-origin: right;
+    transform: scale3d(1, 1, 1);
+    opacity: 1;
+  }
+  100% {
+    transform-origin: right;
+    transform: scale3d(0, 1, 1);
+    opacity: 1;
+  }
+}
+
+@keyframes animation04_line03 {
+  0% {
+    transform-origin: left;
+    transform: scale3d(0, 1, 1);
+    opacity: 1;
+  }
+  100% {
+    transform-origin: left;
+    transform: scale3d(1, 1, 1);
+    opacity: 1;
+  }
+}
+
+/* =========== line04 =========== */
+
+.animation04 .rotate135 {
+  display: block;
+  position: absolute;
+  top: 49.5%;
+  left: -22%;
+  width: 100%;
+  height: 100%;
+  transform: rotate(135deg);
+}
+
+.animation04 .line_wrapper04 {
+  width: 2.5%;
+  height: 30%;
+  animation: animation04_line_wrapper04 0.45s ease-in 0.8s forwards;
+}
+
+.animation04 .line04 {
+  animation: animation04_line04 0.45s ease-in 0.5s forwards;
+}
+
+@keyframes animation04_line_wrapper04 {
+  0% {
+    transform-origin: top;
+    transform: scale3d(1, 1, 1);
+    opacity: 1;
+  }
+  100% {
+    transform-origin: top;
+    transform: scale3d(1, 0, 1);
+    opacity: 1;
+  }
+}
+
+@keyframes animation04_line04 {
+  0% {
+    transform-origin: bottom;
+    transform: scale3d(1, 0, 1);
+    opacity: 1;
+  }
+  100% {
+    transform-origin: bottom;
+    transform: scale3d(1, 1, 1);
+    opacity: 1;
+  }
+}
+
+/* =========== line05 =========== */
+
+.animation04 .line_wrapper05 {
+  top: 90%;
+  left: 50%;
+  width: 2.5%;
+  height: 30%;
+  animation: animation04_line_wrapper05 0.45s ease-in 0.8s forwards;
+}
+
+.animation04 .line05 {
+  animation: animation04_line05 0.45s ease-in 0.5s forwards;
+}
+
+@keyframes animation04_line_wrapper05 {
+  0% {
+    transform-origin: bottom;
+    transform: scale3d(1, 1, 1);
+    opacity: 1;
+  }
+  100% {
+    transform-origin: bottom;
+    transform: scale3d(1, 0, 1);
+    opacity: 1;
+  }
+}
+
+@keyframes animation04_line05 {
+  0% {
+    transform-origin: top;
+    transform: scale3d(1, 0, 1);
+    opacity: 1;
+  }
+  100% {
+    transform-origin: top;
+    transform: scale3d(1, 1, 1);
+    opacity: 1;
+  }
+}
+
+/* =========== line06 =========== */
+
+.animation04 .rotate-135 {
+  display: block;
+  position: absolute;
+  top: -19.5%;
+  left: -48%;
+  width: 100%;
+  height: 100%;
+  transform: rotate(-135deg);
+}
+
+.animation04 .line_wrapper06 {
+  width: 2.5%;
+  height: 30%;
+  animation: animation04_line_wrapper06 0.45s ease-in 0.8s forwards;
+}
+
+.animation04 .line06 {
+  animation: animation04_line06 0.45s ease-in 0.5s forwards;
+}
+
+@keyframes animation04_line_wrapper06 {
+  0% {
+    transform-origin: top;
+    transform: scale3d(1, 1, 1);
+    opacity: 1;
+  }
+  100% {
+    transform-origin: top;
+    transform: scale3d(1, 0, 1);
+    opacity: 1;
+  }
+}
+
+@keyframes animation04_line06 {
+  0% {
+    transform-origin: bottom;
+    transform: scale3d(1, 0, 1);
+    opacity: 1;
+  }
+  100% {
+    transform-origin: bottom;
+    transform: scale3d(1, 1, 1);
+    opacity: 1;
+  }
+}
+
+/* =========== line07 =========== */
+
+.animation04 .line_wrapper07 {
+  top: 50%;
+  left: -20%;
+  width: 30%;
+  height: 2.5%;
+  animation: animation04_line_wrapper07 0.45s ease-in 0.8s forwards;
+}
+
+.animation04 .line07 {
+  animation: animation04_line07 0.45s ease-in 0.5s forwards;
+}
+
+@keyframes animation04_line_wrapper07 {
+  0% {
+    transform-origin: left;
+    transform: scale3d(1, 1, 1);
+    opacity: 1;
+  }
+  100% {
+    transform-origin: left;
+    transform: scale3d(0, 1, 1);
+    opacity: 1;
+  }
+}
+
+@keyframes animation04_line07 {
+  0% {
+    transform-origin: right;
+    transform: scale3d(0, 1, 1);
+    opacity: 1;
+  }
+  100% {
+    transform-origin: right;
+    transform: scale3d(1, 1, 1);
+    opacity: 1;
+  }
+}
+
+/* =========== line08 =========== */
+
+.animation04 .rotate-45 {
+  display: block;
+  position: absolute;
+  top: -49.0%;
+  left: 20%;
+  width: 100%;
+  height: 100%;
+  transform: rotate(-45deg);
+}
+
+.animation04 .line_wrapper08 {
+  width: 2.5%;
+  height: 30%;
+  animation: animation04_line_wrapper08 0.45s ease-in 0.8s forwards;
+}
+
+.animation04 .line08 {
+  animation: animation04_line08 0.45s ease-in 0.5s forwards;
+}
+
+@keyframes animation04_line_wrapper08 {
+  0% {
+    transform-origin: top;
+    transform: scale3d(1, 1, 1);
+    opacity: 1;
+  }
+  100% {
+    transform-origin: top;
+    transform: scale3d(1, 0, 1);
+    opacity: 1;
+  }
+}
+
+@keyframes animation04_line08 {
+  0% {
+    transform-origin: bottom;
+    transform: scale3d(1, 0, 1);
+    opacity: 1;
+  }
+  100% {
+    transform-origin: bottom;
+    transform: scale3d(1, 1, 1);
+    opacity: 1;
+  }
+}

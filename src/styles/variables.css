@@ -1,0 +1,122 @@
+/* =================== variables.css ==================== */
+:root {
+  --toast-bg: #ffffff;
+  --toast-text-color: #363636;
+  --tw-shadow-color-neon-green: #39ff14;
+  --tw-shadow-color-neon-blue: #25d4ff;
+  --tw-shadow-color-neon-pink: #ff2d74;
+  --tw-shadow-color-neon-purple: #bd00ff;
+  --text-color-light: #4b5563;
+  --shine-color: #ffffff;
+
+  --fab-bg: theme('colors.primary.600');
+  --fab-shadow: theme('colors.primary.300');
+  --fab-border: theme('colors.primary.700');
+  --fab-hover-bg: theme('colors.primary.500');
+  --fab-hover-shadow: theme('colors.primary.400');
+  --fab-action-bg: theme('colors.primary.600');
+  --fab-action-shadow-rgb: 108, 144, 108;
+  --fab-action-hover-bg: theme('colors.primary.500');
+
+  --slogan-base-color: theme('colors.gray.600'); /* Changed to softer gray for light mode */
+  --slogan-shine-color: theme('colors.gray.50');
+
+  /* Intro Animation Colors - Light Mode */
+  --intro-color-red: theme('colors.brandRed.500');
+  --intro-color-yellow: theme('colors.yellow.300');
+  --intro-color-green: theme('colors.primary.500');
+  --intro-color-orange: theme('colors.brandOrange.500');
+  --intro-color-blue: theme('colors.secondary.500');
+
+  --intro-bg-main: theme('colors.gray.50'); /* General light background for animations */
+
+  --intro-border-green-medium: theme('colors.primary.600');
+  --intro-border-green-dark: theme('colors.primary.700');
+  --intro-border-gray-dark: theme('colors.gray.600'); /* Changed to softer gray */
+
+  --intro-line-color: theme('colors.gray.800'); /* Darker lines on light background, but not black */
+  --intro-circle-border-brownish-green: theme('colors.primary.700');
+  --intro-circle-bg: theme('colors.white'); /* White circle background */
+  --intro-strip-dark-gray: theme('colors.gray.800');
+
+  /* New CSS variables for colors */
+  --primary-500: #86b486;
+  --primary-500-rgb-04: rgba(134, 180, 134, 0.4);
+  --primary-500-rgb-07: rgba(134, 180, 134, 0.7);
+  --brandRed-400: #ef4444;
+
+  /* Background Gradient Colors - Light Mode */
+  --bg-gradient-start-light: theme('colors.primary.50');
+  --bg-gradient-mid-light: theme('colors.secondary.100');
+  --bg-gradient-end-light: theme('colors.primary.50');
+
+  /* Background accent layers */
+  --bg-beam-primary: rgba(134, 180, 134, 0.36);
+  --bg-beam-secondary: rgba(255, 181, 120, 0.3);
+  --bg-beam-accent: rgba(128, 158, 255, 0.28);
+  --bg-grid-line: rgba(255, 255, 255, 0.22);
+  --bg-grid-shadow: rgba(255, 255, 255, 0.08);
+  --bg-dust-foreground: rgba(255, 255, 255, 0.28);
+  --bg-dust-accent: rgba(134, 180, 134, 0.18);
+  --bg-noise-opacity: 0.14;
+}
+
+.dark {
+  --toast-bg: #1f2937;
+  --toast-text-color: #f9fafb;
+  --tw-shadow-color-neon-green: #39ff14;
+  --tw-shadow-color-neon-blue: #25d4ff;
+  --tw-shadow-color-neon-pink: #ff2d74;
+  --tw-shadow-color-neon-purple: #bd00ff;
+
+  --fab-bg: theme('colors.primary.800');
+  --fab-shadow: theme('colors.primary.700');
+  --fab-border: theme('colors.primary.900');
+  --fab-hover-bg: theme('colors.primary.700');
+  --fab-hover-shadow: theme('colors.primary.600');
+  --fab-action-bg: theme('colors.primary.800');
+  --fab-action-shadow-rgb: 56, 72, 56;
+  --fab-action-hover-bg: theme('colors.primary.700');
+
+  --slogan-base-color: theme('colors.gray.300');
+  --slogan-shine-color: theme('colors.gray.50');
+
+  /* Intro Animation Colors - Dark Mode */
+  --intro-color-red: theme('colors.brandRed.600');
+  --intro-color-yellow: theme('colors.yellow.500');
+  --intro-color-green: theme('colors.primary.600');
+  --intro-color-orange: theme('colors.brandOrange.600');
+  --intro-color-blue: theme('colors.secondary.600');
+
+  --intro-bg-main: #1a1a1a; /* General dark background for animations */
+
+  --intro-border-green-medium: theme('colors.primary.600');
+  --intro-border-green-dark: theme('colors.primary.800');
+  --intro-border-gray-dark: theme('colors.gray.300');
+
+  --intro-line-color: #eee;
+  --intro-circle-border-brownish-green: theme('colors.primary.700');
+  --intro-circle-bg: #1a1a1a;
+  --intro-strip-dark-gray: theme('colors.gray.100');
+
+  /* New CSS variables for colors in dark mode */
+  --primary-500: #86b486;
+  --primary-500-rgb-04: rgba(134, 180, 134, 0.4);
+  --primary-500-rgb-07: rgba(134, 180, 134, 0.7);
+  --brandRed-400: #ef4444;
+
+  /* Background Gradient Colors - Dark Mode */
+  --bg-gradient-start-dark: theme('colors.gray.900');
+  --bg-gradient-mid-dark: theme('colors.gray.950');
+  --bg-gradient-end-dark: theme('colors.gray.900');
+
+  /* Background accent layers */
+  --bg-beam-primary: rgba(110, 178, 153, 0.42);
+  --bg-beam-secondary: rgba(255, 161, 120, 0.3);
+  --bg-beam-accent: rgba(131, 156, 255, 0.34);
+  --bg-grid-line: rgba(255, 255, 255, 0.12);
+  --bg-grid-shadow: rgba(0, 0, 0, 0.18);
+  --bg-dust-foreground: rgba(255, 255, 255, 0.18);
+  --bg-dust-accent: rgba(110, 178, 153, 0.22);
+  --bg-noise-opacity: 0.1;
+}

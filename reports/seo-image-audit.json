@@ -1,0 +1,158 @@
+[
+  {
+    "path": "public\\images\\og-image.jpg",
+    "size": 205868,
+    "suggestion": "Optimize to WebP/AVIF (consider 101 KB target).",
+    "readableSize": "201.0 KB"
+  },
+  {
+    "path": "public\\images\\original-vitamin-samyun-wan-armenia.jpg",
+    "size": 205868,
+    "suggestion": "Optimize to WebP/AVIF (consider 101 KB target).",
+    "readableSize": "201.0 KB"
+  },
+  {
+    "path": "public\\images\\samyun-arm-original-whey-certificate.jpg",
+    "size": 243650,
+    "suggestion": "Optimize to WebP/AVIF (consider 119 KB target).",
+    "readableSize": "237.9 KB"
+  },
+  {
+    "path": "public\\images\\samyun-armenia-loss-weight.jpg",
+    "size": 255043,
+    "suggestion": "Optimize to WebP/AVIF (consider 125 KB target).",
+    "readableSize": "249.1 KB"
+  },
+  {
+    "path": "public\\images\\samyun-vitamin-gain-whey.jpg",
+    "size": 365374,
+    "suggestion": "Optimize to WebP/AVIF (consider 178 KB target).",
+    "readableSize": "356.8 KB"
+  },
+  {
+    "path": "public\\images\\samyun-wan-armenia-loss-diet.jpg",
+    "size": 219009,
+    "suggestion": "Optimize to WebP/AVIF (consider 107 KB target).",
+    "readableSize": "213.9 KB"
+  },
+  {
+    "path": "public\\images\\samyun-wan-armenia.jpg",
+    "size": 905743,
+    "suggestion": "Optimize to WebP/AVIF (consider 442 KB target).",
+    "readableSize": "884.5 KB"
+  },
+  {
+    "path": "public\\images\\samyun-wan-slim-weight-loss-vitamin-original-whay-arm.png",
+    "size": 357837,
+    "suggestion": "Optimize to WebP/AVIF (consider 175 KB target).",
+    "readableSize": "349.5 KB"
+  },
+  {
+    "path": "public\\images\\samyun-wan-weight-gain-qr.jpg",
+    "size": 205868,
+    "suggestion": "Optimize to WebP/AVIF (consider 101 KB target).",
+    "readableSize": "201.0 KB"
+  },
+  {
+    "path": "public\\optimized\\og-image-1200w.jpg",
+    "size": 210299,
+    "suggestion": "Optimize to WebP/AVIF (consider 103 KB target).",
+    "readableSize": "205.4 KB"
+  },
+  {
+    "path": "public\\optimized\\original-vitamin-samyun-wan-armenia-1200w.jpg",
+    "size": 210299,
+    "suggestion": "Optimize to WebP/AVIF (consider 103 KB target).",
+    "readableSize": "205.4 KB"
+  },
+  {
+    "path": "public\\optimized\\samyun-arm-original-whey-certificate-1200w.jpg",
+    "size": 279413,
+    "suggestion": "Optimize to WebP/AVIF (consider 136 KB target).",
+    "readableSize": "272.9 KB"
+  },
+  {
+    "path": "public\\optimized\\samyun-armenia-loss-weight-1200w.jpg",
+    "size": 288942,
+    "suggestion": "Optimize to WebP/AVIF (consider 141 KB target).",
+    "readableSize": "282.2 KB"
+  },
+  {
+    "path": "public\\optimized\\samyun-vitamin-gain-whey-1200w.jpg",
+    "size": 278026,
+    "suggestion": "Optimize to WebP/AVIF (consider 136 KB target).",
+    "readableSize": "271.5 KB"
+  },
+  {
+    "path": "public\\optimized\\samyun-wan-armenia-geiner-1200w.jpg",
+    "size": 222228,
+    "suggestion": "Optimize to WebP/AVIF (consider 109 KB target).",
+    "readableSize": "217.0 KB"
+  },
+  {
+    "path": "public\\optimized\\samyun-wan-armenia-loss-diet-1200w.jpg",
+    "size": 266589,
+    "suggestion": "Optimize to WebP/AVIF (consider 130 KB target).",
+    "readableSize": "260.3 KB"
+  },
+  {
+    "path": "public\\optimized\\samyun-wan-weight-gain-qr-1200w.jpg",
+    "size": 210299,
+    "suggestion": "Optimize to WebP/AVIF (consider 103 KB target).",
+    "readableSize": "205.4 KB"
+  },
+  {
+    "path": "public\\samyun-arm-original-whey-certificate-deferences.jpg",
+    "size": 243650,
+    "suggestion": "Optimize to WebP/AVIF (consider 119 KB target).",
+    "readableSize": "237.9 KB"
+  },
+  {
+    "path": "public\\optimized\\og-image-1200w.jpg",
+    "size": 210299,
+    "suggestion": "Optimize to WebP/AVIF (consider 103 KB target).",
+    "readableSize": "205.4 KB"
+  },
+  {
+    "path": "public\\optimized\\original-vitamin-samyun-wan-armenia-1200w.jpg",
+    "size": 210299,
+    "suggestion": "Optimize to WebP/AVIF (consider 103 KB target).",
+    "readableSize": "205.4 KB"
+  },
+  {
+    "path": "public\\optimized\\samyun-arm-original-whey-certificate-1200w.jpg",
+    "size": 279413,
+    "suggestion": "Optimize to WebP/AVIF (consider 136 KB target).",
+    "readableSize": "272.9 KB"
+  },
+  {
+    "path": "public\\optimized\\samyun-armenia-loss-weight-1200w.jpg",
+    "size": 288942,
+    "suggestion": "Optimize to WebP/AVIF (consider 141 KB target).",
+    "readableSize": "282.2 KB"
+  },
+  {
+    "path": "public\\optimized\\samyun-vitamin-gain-whey-1200w.jpg",
+    "size": 278026,
+    "suggestion": "Optimize to WebP/AVIF (consider 136 KB target).",
+    "readableSize": "271.5 KB"
+  },
+  {
+    "path": "public\\optimized\\samyun-wan-armenia-geiner-1200w.jpg",
+    "size": 222228,
+    "suggestion": "Optimize to WebP/AVIF (consider 109 KB target).",
+    "readableSize": "217.0 KB"
+  },
+  {
+    "path": "public\\optimized\\samyun-wan-armenia-loss-diet-1200w.jpg",
+    "size": 266589,
+    "suggestion": "Optimize to WebP/AVIF (consider 130 KB target).",
+    "readableSize": "260.3 KB"
+  },
+  {
+    "path": "public\\optimized\\samyun-wan-weight-gain-qr-1200w.jpg",
+    "size": 210299,
+    "suggestion": "Optimize to WebP/AVIF (consider 103 KB target).",
+    "readableSize": "205.4 KB"
+  }
+]

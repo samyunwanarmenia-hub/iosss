@@ -1,0 +1,116 @@
+--- lines 37-43
+38: const OG_IMAGE = `${SITE_URL}/optimized/og-image-1200x630.webp`;
+39: 
+40: const buildKeywords = (...values: Array<string | undefined>) => values.filter(Boolean) as string[];
+41: 
+42: export const LEGAL_COPY: Record<
+43:   SupportedLang,
+44:   { privacyTitle: string; privacyDescription: string; termsTitle: string; termsDescription: string }
+
+--- lines 42-48
+43:   SupportedLang,
+44:   { privacyTitle: string; privacyDescription: string; termsTitle: string; termsDescription: string }
+45: > = {
+46:   hy: {
+47:     privacyTitle: 'Գաղտնիության քաղաքականություն',
+48:     privacyDescription:
+49:       'Samyun Wan Armenia կայքը պաշտպանում է այցելուների տվյալները և օգտագործում է դրանք միայն պատվերների և կապի կազմակերպման համար։',
+
+--- lines 47-53
+48:     privacyDescription:
+49:       'Samyun Wan Armenia կայքը պաշտպանում է այցելուների տվյալները և օգտագործում է դրանք միայն պատվերների և կապի կազմակերպման համար։',
+50:     termsTitle: 'Օգտագործման կանոններ',
+51:     termsDescription:
+52:       'Կայքը ներկայացնում է Samyun Wan Armenia-ի պաշտոնական առաջարկները, և դրա օգտագործումը ենթադրում է կանոնների ընդունում։',
+53:   },
+54:   ru: {
+
+--- lines 82-88
+83:         // Long-tail keywords for better SEO
+84:         lang === 'ru' 
+85:           ? 'как набрать вес безопасно в Армении 2025'
+86:           : lang === 'en'
+87:           ? 'how to gain weight safely in Armenia 2025'
+88:           : 'ինչպես անվտանգ քաշ ավելացնել Հայաստանում 2025',
+89:         lang === 'ru'
+
+--- lines 87-93
+88:           : 'ինչպես անվտանգ քաշ ավելացնել Հայաստանում 2025',
+89:         lang === 'ru'
+90:           ? 'оригинальный Samyun Wan с QR проверкой Ереван'
+91:           : lang === 'en'
+92:           ? 'original Samyun Wan with QR verification Yerevan'
+93:           : 'օրիգինալ Samyun Wan QR ստուգմամբ Երևան',
+94:         lang === 'ru'
+
+--- lines 92-98
+93:           : 'օրիգինալ Samyun Wan QR ստուգմամբ Երևան',
+94:         lang === 'ru'
+95:           ? 'где купить настоящий Samyun Wan Armenia доставка'
+96:           : lang === 'en'
+97:           ? 'where to buy authentic Samyun Wan Armenia delivery'
+98:           : 'որտեղ գնել իրական Samyun Wan Armenia առաքում',
+99:         t.nav.products,
+
+--- lines 147-153
+148:         t.nav.products,
+149:         // Long-tail keywords
+150:         lang === 'ru'
+151:           ? 'купить Samyun Wan Armenia для набора веса с доставкой Ереван'
+152:           : lang === 'en'
+153:           ? 'buy Samyun Wan Armenia for weight gain delivery Yerevan'
+154:           : 'գնել Samyun Wan Armenia քաշի ավելացման առաքում Երևան',
+
+--- lines 152-158
+153:           ? 'buy Samyun Wan Armenia for weight gain delivery Yerevan'
+154:           : 'գնել Samyun Wan Armenia քաշի ավելացման առաքում Երևան',
+155:         lang === 'ru'
+156:           ? 'цена оригинального Samyun Wan Armenia 2025 официальный представитель'
+157:           : lang === 'en'
+158:           ? 'price original Samyun Wan Armenia 2025 official representative'
+159:           : 'գին օրիգինալ Samyun Wan Armenia 2025 պաշտոնական ներկայացուցիչ',
+
+--- lines 157-163
+158:           ? 'price original Samyun Wan Armenia 2025 official representative'
+159:           : 'գին օրիգինալ Samyun Wan Armenia 2025 պաշտոնական ներկայացուցիչ',
+160:         t.productShowcase.orderWeightGain,
+161:         t.productShowcase.orderWeightLoss,
+162:         t.hero.guarantee,
+163:       ),
+164:       imageAlt: `${t.nav.products} - оригинальные витамины для набора и снижения веса с сертификатом`,
+
+--- lines 237-243
+238:         lang === 'ru'
+239:           ? 'как отличить поддельный Samyun Wan от оригинала 2025'
+240:           : lang === 'en'
+241:           ? 'how to distinguish fake Samyun Wan from original 2025'
+242:           : 'ինչպես տարբերել կեղծ Samyun Wan-ը օրիգինալից 2025',
+243:         lang === 'ru'
+244:           ? 'признаки подделки Samyun Wan Armenia проверка QR кода'
+
+--- lines 242-248
+243:         lang === 'ru'
+244:           ? 'признаки подделки Samyun Wan Armenia проверка QR кода'
+245:           : lang === 'en'
+246:           ? 'signs of fake Samyun Wan Armenia QR code verification'
+247:           : 'կեղծ Samyun Wan Armenia նշաններ QR կոդի ստուգում',
+248:         t.authenticity.attention,
+249:         t.authenticity.qrScanInstructions,
+
+--- lines 247-253
+248:         t.authenticity.attention,
+249:         t.authenticity.qrScanInstructions,
+250:       ),
+251:       imageAlt: `${t.authenticity.title} - сравнение оригинального и поддельного продукта с QR кодом`,
+252:     }),
+253:   },
+254:   blogs: {
+
+--- lines 267-273
+268:         keywords: buildKeywords(
+269:           article.title,
+270:           article.subtitle,
+271:           ...extraKeywords,
+272:           lang === 'ru' ? 'блог Samyun Wan' : lang === 'en' ? 'Samyun Wan blog guide' : 'Samyun Wan բլոգ',
+273:           article.ctaLabel
+274:         ),

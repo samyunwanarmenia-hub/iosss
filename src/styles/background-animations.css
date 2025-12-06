@@ -1,0 +1,20 @@
+/* =================== background-animations.css ==================== */
+/* Simplified to keep a calm, high-contrast backdrop without moving layers. */
+
+body {
+  background: linear-gradient(180deg, var(--background) 0%, var(--muted-surface) 100%);
+  color: var(--text-primary);
+  background-size: auto;
+  animation: none;
+}
+
+.ambient-background,
+.background-grid,
+.background-beams,
+.background-beam,
+.background-dust,
+.background-noise,
+.hero-overlays,
+.ambient-orb {
+  display: none !important;
+}

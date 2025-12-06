@@ -1,0 +1,47 @@
+# Node / pnpm
+node_modules/
+.pnpm-store/
+
+# Next.js
+.next/
+.next.cache/
+.next-dev.pid
+.next-server.pid
+
+# Build
+dist/
+build/
+
+# OS / Editor junk
+.DS_Store
+Thumbs.db
+*.log
+*.tmp
+*.swp
+.idea/
+.vscode/
+
+# Capacitor iOS
+ios/Pods/
+ios/App/Pods/
+ios/App/build/
+ios/DerivedData/
+*.xcworkspace/xcuserdata/
+
+# Android
+android/
+android/app/build/
+android/.gradle/
+
+# Memory bank (опционально)
+memory-bank/
+
+# AI internal files
+.cursorrules
+.cursor/
+
+# Other garbage
+*.bak
+*.orig
+dev.html
+dev.err

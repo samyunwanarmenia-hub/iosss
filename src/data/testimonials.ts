@@ -1,0 +1,85 @@
+import { Testimonial } from '../types/global';
+
+export const baseTestimonials: Testimonial[] = [
+  {
+    id: 'base-1', // Unique ID
+    name: 'Անի Հակոբյան', nameRu: 'Ани Акопян', nameEn: 'Ani Hakobyan',
+    image: 'https://randomuser.me/api/portraits/women/12.jpg',
+    rating: 5, result: '+9kg',
+    textHy: '2 ամսում ավելացրի 9 կիլոգրամ: Ախորժակս բարձրացավ, էներգիայս ավելացավ: Շատ գոհ եմ արդյունքից: Առաջին անգամ կարողացա առողջ ճանապարհով քաշ ավելացնել:',
+    textRu: 'За 2 месяца набрала 9 килограммов. Аппетит повысился, энергия увеличилась. Очень довольна результатом. Впервые смогла набрать вес здоровым способом.',
+    textEn: 'Gained 9 kilograms in 2 months. My appetite increased, my energy increased. Very satisfied with the result. First time I could gain weight in a healthy way.',
+  },
+  {
+    id: 'base-4',
+    name: 'Արման Սահակյան', nameRu: 'Арман Сагакян', nameEn: 'Arman Sahakyan',
+    image: 'https://randomuser.me/api/portraits/men/32.jpg',
+    rating: 5, result: '+7kg',
+    textHy: 'Մարզումների հետ միասին հավելումը լավ աշխատեց. 2.5 ամսում +7կգ և ուժայիններն աճեցին:',
+    textRu: 'Вместе с тренировками добавка сработала отлично. За 2.5 месяца +7 кг и выросли силовые.',
+    textEn: 'Worked great with workouts. +7kg in 2.5 months and better strength.',
+  },
+  {
+    id: 'base-5',
+    name: 'Լիլիթ Կարապետյան', nameRu: 'Лилит Карапетян', nameEn: 'Lilit Karapetyan',
+    image: 'https://randomuser.me/api/portraits/women/45.jpg',
+    rating: 5, result: '+6kg',
+    textHy: 'Ախորժակը կարգավորվեց, էներգիան ավելացավ։ Խորհուրդ եմ տալիս խորհրդատվությամբ օգտագործել.',
+    textRu: 'Аппетит нормализовался, энергии стало больше. Советую использовать с консультацией.',
+    textEn: 'Appetite normalized, more energy. Recommend with consultation.',
+  },
+  {
+    id: 'base-6',
+    name: 'Տիգրան Մկրտչյան', nameRu: 'Тигран Мкртчян', nameEn: 'Tigran Mkrtchyan',
+    image: 'https://randomuser.me/api/portraits/men/71.jpg',
+    rating: 4, result: '+8kg',
+    textHy: 'Առաքումը արագ էր, արդյունքը՝ սպասվածից լավ։ +8կգ երեք ամսում:',
+    textRu: 'Доставка быстрая, результат лучше ожидаемого. +8 кг за три месяца.',
+    textEn: 'Fast delivery, result better than expected. +8kg in 3 months.',
+  },
+  {
+    id: 'base-7',
+    name: 'Մարիա Գրիգորյան', nameRu: 'Мария Григорян', nameEn: 'Maria Grigoryan',
+    image: 'https://randomuser.me/api/portraits/women/28.jpg',
+    rating: 5, result: '+5kg',
+    textHy: 'Քաշը դանդաղ, բայց կայուն ավելացավ։ Ամենակարևորը՝ բարեկեցությունս լավացավ:',
+    textRu: 'Вес рос медленно, но стабильно. Главное — самочувствие улучшилось.',
+    textEn: 'Weight grew slowly but steadily. Most important—felt better.',
+  },
+  {
+    id: 'base-8',
+    name: 'Էդգար Հովսեփյան', nameRu: 'Эдгар Овсепян', nameEn: 'Edgar Hovsepyan',
+    image: 'https://randomuser.me/api/portraits/men/64.jpg',
+    rating: 5, result: '+10kg',
+    textHy: 'Սննդակարգի ծրագրով տվեցին ճիշտ դոզավորում. +10կգ 4 ամսում առանց անհարմարության:',
+    textRu: 'С планом питания подобрали дозировку. +10 кг за 4 месяца без дискомфорта.',
+    textEn: 'With a diet plan, dose was tuned. +10kg in 4 months comfortably.',
+  },
+  {
+    id: 'base-9',
+    name: 'Քրիստինե Հարությունյան', nameRu: 'Кристина Арутюнян', nameEn: 'Kristine Harutyunyan',
+    image: 'https://randomuser.me/api/portraits/women/62.jpg',
+    rating: 5, result: '+4kg',
+    textHy: 'Կուրսից հետո քնի և ախորժակի ռեժիմը կարգավորվեց, արդյունքը՝ +4կգ:',
+    textRu: 'После курса нормализовались сон и аппетит, итог +4 кг.',
+    textEn: 'Sleep and appetite improved, result +4kg.',
+  },
+  {
+    id: 'base-2', // Unique ID
+    name: 'Դավիթ Սարգսյան', nameRu: 'Давид Саргсян', nameEn: 'David Sargsyan',
+    image: 'https://randomuser.me/api/portraits/men/22.jpg',
+    rating: 5, result: '+12kg',
+    textHy: 'Օգտագործել եմ 3 ամիս: Քաշս ավելացել է 12 կգ-ով: Իմունիտետս ամրապնդվել է, հիվանդանում եմ շատ հազվադեպ: Մկանները ստացան լավ տեսք:',
+    textRu: 'Использовал 3 месяца. Вес увеличился на 12 кг. Иммунитет укрепился, болею очень редко. Мышцы приобрели хороший вид.',
+    textEn: 'Used for 3 months. Weight increased by 12 kg. Immunity strengthened, get sick very rarely. Muscles got a good look.',
+  },
+  {
+    id: 'base-3', // Unique ID
+    name: 'Մարիամ Ավանեսյան', nameRu: 'Мариам Аванесяն', nameEn: 'Mariam Avanesyan',
+    image: 'https://randomuser.me/api/portraits/women/31.jpg',
+    rating: 5, result: '+15kg',
+    textHy: 'Առաջին անգամ քաշ եմ ավելացնում: 6 ամսում +15կգ: Շատ բավարարված եմ արդյունքով: Այժմ ունեմ իմ երազած ֆիգուրը:',
+    textRu: 'Впервые набираю вес. За 6 месяцев +15кг. Очень удовлетворена результатом. Теперь у меня фигура моей мечты.',
+    textEn: 'First time gaining weight. +15kg in 6 months. Very satisfied with the result. Now I have my dream figure.',
+  },
+];

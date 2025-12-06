@@ -1,0 +1,58 @@
+/* =================== animation03 ==================== */
+
+.animation03 {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 13vw;
+  height: 13vw;
+}
+
+.animation03 .circle {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  transform-origin: center;
+  background-color: transparent;
+  z-index: 9998;
+}
+
+.animation03 .circle_element01 {
+  width: 13vw;
+  height: 13vw;
+  border: 0.25rem solid var(--intro-border-green-medium);
+  border-radius: 50%;
+  animation: animation03_circle 0.3s ease-in-out 0.5s forwards;
+  opacity: 0;
+}
+
+.animation03 .circle_element02 {
+  width: 9vw;
+  height: 9vw;
+  border: 0.5rem solid var(--intro-border-green-dark);
+  border-radius: 50%;
+  animation: animation03_circle 0.4s ease-in-out 0.5s forwards;
+  opacity: 0;
+}
+
+.animation03 .circle_element03 {
+  width: 4vw;
+  height: 4vw;
+  border: 1rem solid var(--intro-border-gray-dark);
+  border-radius: 50%;
+  animation: animation03_circle 0.45s ease-in-out 0.5s forwards;
+  opacity: 0;
+}
+
+@keyframes animation03_circle {
+  0% {
+    transform: scale3d(0, 0, 1);
+    opacity: 0;
+  }
+  100% {
+    transform: scale3d(1, 1, 1);
+    opacity: 1;
+  }
+}

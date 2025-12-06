@@ -1,0 +1,101 @@
+/* =================== components.css ==================== */
+  .shadow-glow-green {
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05), 0 0 15px rgba(134, 180, 134, 0.5);
+  }
+
+  .dark .shadow-glow-green {
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3), 0 4px 6px -2px rgba(0, 0, 0, 0.15), 0 0 15px rgba(134, 180, 134, 0.3);
+  }
+
+  .text-slogan-shine {
+    background: linear-gradient(90deg, var(--slogan-base-color) 0%, var(--slogan-base-color) 45%, var(--slogan-shine-color) 50%, var(--slogan-base-color) 55%, var(--slogan-base-color) 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-repeat: no-repeat;
+    background-size: 200% auto;
+    animation: shine 6.8s linear infinite;
+    position: relative;
+  }
+
+  @keyframes shine {
+    0% {
+      background-position-x: 100%;
+    }
+    100% {
+      background-position-x: 0%;
+    }
+  }
+
+  /* New: Pulse animation for primary CTA button using composited properties */
+  .animate-pulse-subtle {
+    animation: pulse-subtle 2s infinite cubic-bezier(0.4, 0, 0.6, 1);
+  }
+
+  @keyframes pulse-subtle {
+    0%, 100% {
+      transform: scale(1);
+      opacity: 1; /* Full opacity for the button itself */
+      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05), 0 0 15px rgba(134, 180, 134, 0.5); /* Initial glow */
+    }
+    50% {
+      transform: scale(1.02); /* Subtle scale increase */
+      opacity: 0.9; /* Slight opacity reduction */
+      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05), 0 0 25px rgba(134, 180, 134, 0.8); /* Enhanced glow */
+    }
+  }
+
+  .dark .animate-pulse-subtle {
+    animation: pulse-subtle-dark 2s infinite cubic-bezier(0.4, 0, 0.6, 1);
+  }
+
+  @keyframes pulse-subtle-dark {
+    0%, 100% {
+      transform: scale(1);
+      opacity: 1;
+      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3), 0 4px 6px -2px rgba(0, 0, 0, 0.15), 0 0 15px rgba(134, 180, 134, 0.3); /* Initial glow */
+    }
+    50% {
+      transform: scale(1.02); /* Subtle scale increase */
+      opacity: 0.9;
+      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3), 0 4px 6px -2px rgba(0, 0, 0, 0.15), 0 0 25px rgba(134, 180, 134, 0.6); /* Enhanced glow */
+    }
+  }
+
+  /* Product carousel styling */
+  .product-carousel .swiper {
+    padding-bottom: 8px;
+  }
+
+  .product-carousel .swiper-slide {
+    height: auto;
+  }
+
+  .product-carousel .swiper-pagination-bullet {
+    background: var(--accent);
+    opacity: 0.35;
+    width: 10px;
+    height: 10px;
+    transition: all 0.3s ease;
+  }
+
+  .product-carousel .swiper-pagination-bullet-active {
+    opacity: 1;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(63, 127, 74, 0.25);
+  }
+
+  .product-card {
+    animation: fade-up-soft 0.5s ease both;
+  }
+
+  @keyframes fade-up-soft {
+    from {
+      opacity: 0;
+      transform: translateY(12px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }

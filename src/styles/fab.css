@@ -1,0 +1,122 @@
+/* =================== fab.css ==================== */
+.fab-wrapper {
+  position: fixed;
+  bottom: 1rem; /* Adjusted for smaller screens */
+  right: 1rem; /* Adjusted for smaller screens */
+  z-index: 50;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.75rem;
+
+  @screen md { /* Apply larger spacing on medium screens and up */
+    bottom: 3rem;
+    right: 2rem;
+  }
+}
+
+.fab { /* Main FAB button */
+  position: absolute; /* Relative to .fab-wrapper */
+  bottom: 0; /* Adjusted */
+  right: 0; /* Adjusted */
+  width: 4rem;
+  height: 4rem;
+  background: var(--fab-bg);
+  box-shadow: 0px 5px 20px var(--fab-shadow), var(--tw-shadow-glow-green); /* Added glow effect */
+  transition: all 0.3s ease;
+  z-index: 1;
+  border-radius: 50%; /* Ensure it's a perfect circle */
+  cursor: pointer;
+  opacity: 1; /* Ensure full opacity by default */
+  display: flex; /* Added for centering icon */
+  align-items: center; /* Added for centering icon */
+  justify-content: center; /* Added for centering icon */
+  color: white; /* Ensure icon color is white */
+}
+
+.fab:before { /* This overlay effect is fine */
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  left: 0;
+  top: 0;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.1);
+  transition: all 0.3s ease;
+}
+
+/* When FAB is open, the inner overlay might shrink */
+.fab.open:before { /* New class 'open' */
+  width: 90%;
+  height: 90%;
+  left: 5%;
+  top: 5%;
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+.fab:hover {
+  background: var(--fab-hover-bg);
+  box-shadow: 0px 5px 20px 5px var(--fab-hover-shadow), var(--tw-shadow-glow-green); /* Added glow effect on hover */
+}
+
+.fab-menu {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+  align-items: flex-end;
+  width: min(280px, calc(100vw - 2.5rem));
+  margin-bottom: 4.5rem;
+}
+
+@screen md {
+  .fab-menu {
+    width: 280px;
+  }
+}
+
+.fab-menu-item {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.95);
+  color: #0f172a;
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  box-shadow: 0 15px 35px rgba(15, 23, 42, 0.15);
+  backdrop-filter: blur(12px);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  text-align: left;
+}
+
+.fab-menu-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 20px 45px rgba(15, 23, 42, 0.2);
+}
+
+.dark .fab-menu-item {
+  background: rgba(15, 23, 42, 0.9);
+  color: #f8fafc;
+  border: 1px solid rgba(148, 163, 184, 0.25);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.45);
+}
+
+.fab-menu-icon {
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 999px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  box-shadow: 0 10px 20px rgba(15, 23, 42, 0.25);
+}
+
+.fab-menu-text {
+  font-size: 0.875rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+}
