@@ -1,17 +1,14 @@
 export const DEFAULT_SITE_URL = 'https://samyun-wan.life';
 const DEFAULT_QR_VERIFICATION_URL = 'https://qr-wan.netlify.app/';
 
-const rawSiteUrl = process.env.NEXT_PUBLIC_SITE_URL?.trim();
+// Vite uses import.meta.env, but we'll use defaults for now
+const rawSiteUrl = (import.meta.env.VITE_SITE_URL as string | undefined)?.trim();
 const normalizedSiteUrl = rawSiteUrl ? rawSiteUrl.replace(/\/+$/, '') : undefined;
-const rawQrVerificationUrl = process.env.NEXT_PUBLIC_QR_VERIFICATION_URL?.trim();
+const rawQrVerificationUrl = (import.meta.env.VITE_QR_VERIFICATION_URL as string | undefined)?.trim();
 
 const normalizeUrlWithTrailingSlash = (url: string): string => `${url.replace(/\/+$/, '')}/`;
 
-if (typeof window === 'undefined' && process.env.NODE_ENV === 'production' && !normalizedSiteUrl) {
-  throw new Error(
-    'NEXT_PUBLIC_SITE_URL must be defined with the public production domain (e.g. https://example.com).',
-  );
-}
+// Skip check for Vite - use defaults
 
 export const SITE_URL = normalizedSiteUrl && normalizedSiteUrl.length > 0 ? normalizedSiteUrl : DEFAULT_SITE_URL;
 const resolvedQrUrl =
@@ -24,8 +21,8 @@ export const QR_VERIFICATION_REL = 'noopener noreferrer nofollow';
 
 const DEFAULT_PRIMARY_PHONE = '+37495653666';
 const DEFAULT_SECONDARY_PHONE = '+37496653666';
-const rawPrimaryPhone = process.env.NEXT_PUBLIC_PRIMARY_PHONE?.trim();
-const rawSecondaryPhone = process.env.NEXT_PUBLIC_SECONDARY_PHONE?.trim();
+const rawPrimaryPhone = (import.meta.env.VITE_PRIMARY_PHONE as string | undefined)?.trim();
+const rawSecondaryPhone = (import.meta.env.VITE_SECONDARY_PHONE as string | undefined)?.trim();
 export const PRIMARY_PHONE =
   rawPrimaryPhone && rawPrimaryPhone.length > 0 ? rawPrimaryPhone : DEFAULT_PRIMARY_PHONE;
 export const SECONDARY_PHONE =
@@ -33,8 +30,8 @@ export const SECONDARY_PHONE =
 
 const DEFAULT_CONTACT_ADDRESS = '1 Teryan St, Yerevan, Armenia<br />(Citadel Office)';
 const DEFAULT_CONTACT_HOURS = 'Mon - Sat: 9:00 - 23:00<br />Sunday: 10:00 - 18:00';
-const rawContactAddress = process.env.NEXT_PUBLIC_CONTACT_ADDRESS_HTML?.trim();
-const rawContactHours = process.env.NEXT_PUBLIC_CONTACT_HOURS_HTML?.trim();
+const rawContactAddress = (import.meta.env.VITE_CONTACT_ADDRESS_HTML as string | undefined)?.trim();
+const rawContactHours = (import.meta.env.VITE_CONTACT_HOURS_HTML as string | undefined)?.trim();
 export const CONTACT_ADDRESS_HTML =
   rawContactAddress && rawContactAddress.length > 0 ? rawContactAddress : DEFAULT_CONTACT_ADDRESS;
 export const CONTACT_HOURS_HTML =
@@ -42,8 +39,8 @@ export const CONTACT_HOURS_HTML =
 
 const DEFAULT_PRIVACY_VERSION = '1.0.0';
 const DEFAULT_PRIVACY_EFFECTIVE_DATE = '2025-06-24';
-const rawPrivacyVersion = process.env.NEXT_PUBLIC_PRIVACY_VERSION?.trim();
-const rawPrivacyEffectiveDate = process.env.NEXT_PUBLIC_PRIVACY_EFFECTIVE_DATE?.trim();
+const rawPrivacyVersion = (import.meta.env.VITE_PRIVACY_VERSION as string | undefined)?.trim();
+const rawPrivacyEffectiveDate = (import.meta.env.VITE_PRIVACY_EFFECTIVE_DATE as string | undefined)?.trim();
 export const PRIVACY_POLICY_VERSION =
   rawPrivacyVersion && rawPrivacyVersion.length > 0 ? rawPrivacyVersion : DEFAULT_PRIVACY_VERSION;
 export const PRIVACY_EFFECTIVE_DATE =

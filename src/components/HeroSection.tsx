@@ -1,12 +1,10 @@
-"use client";
-
 import { ShoppingCart, MessageCircle, Award, Sprout } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { StatItem } from '../types/global';
 import HeroStats from './HeroStats';
 import CallToActionButton from './CallToActionButton';
 import { productShowcaseData } from '../data/productShowcaseData';
-import { useLayoutContext } from '@/context/LayoutContext';
+import { useLayoutContext } from '../context/LayoutContext';
 import HeroQrCodeBlock from './HeroQrCodeBlock';
 
 interface HeroSectionProps {

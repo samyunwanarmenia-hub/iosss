@@ -1,11 +1,9 @@
-"use client";
-
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import ExplosionEffect from './ExplosionEffect';
 import PixelExplosion from './PixelExplosion';
 import { Icon, AnalyticsEvent } from '../types/global';
-import { trackGAEvent, trackGoogleAdsConversion } from '@/utils/analytics';
+import { trackGAEvent, trackGoogleAdsConversion } from '../utils/analytics';
 
 interface CallToActionButtonProps {
   children: React.ReactNode;

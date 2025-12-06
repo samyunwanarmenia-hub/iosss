@@ -1,4 +1,4 @@
-import { AnalyticsEvent } from '@/types/global';
+import { AnalyticsEvent } from '../types/global';
 
 const GOOGLE_ADS_ID = 'AW-17742658374';
 const GOOGLE_ADS_PURCHASE_LABEL = 'jClQCPS06cMbEMb2rYxC';

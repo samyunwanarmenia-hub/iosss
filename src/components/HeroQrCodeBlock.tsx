@@ -1,11 +1,9 @@
-"use client";
-
 import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { QRCodeCanvas } from 'qrcode.react';
-import { useLayoutContext } from '@/context/LayoutContext';
+import { useLayoutContext } from '../context/LayoutContext';
 import { ShieldCheck } from 'lucide-react';
-import { QR_VERIFICATION_URL, QR_VERIFICATION_REL } from '@/config/siteConfig';
+import { QR_VERIFICATION_URL, QR_VERIFICATION_REL } from '../config/siteConfig';
 
 interface HeroQrCodeBlockProps {
   delay?: number;

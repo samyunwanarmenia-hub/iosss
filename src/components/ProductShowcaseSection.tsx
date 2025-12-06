@@ -1,5 +1,3 @@
-"use client";
-
 import { motion } from 'framer-motion';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Pagination } from 'swiper/modules';
@@ -8,8 +6,8 @@ import 'swiper/css/pagination';
 import { Sprout } from 'lucide-react';
 
 import SectionHeader from './SectionHeader';
-import { useLayoutContext } from '@/context/LayoutContext';
-import { productShowcaseData } from '@/data/productShowcaseData';
+import { useLayoutContext } from '../context/LayoutContext';
+import { productShowcaseData } from '../data/productShowcaseData';
 import CallToActionButton from './CallToActionButton';
 import OptimizedImage from './OptimizedImage';
 

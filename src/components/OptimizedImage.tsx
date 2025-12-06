@@ -1,7 +1,4 @@
-"use client";
-
 import { useState } from 'react';
-import Image from 'next/image';
 import { ImageOff } from 'lucide-react';
 
 interface OptimizedImageProps {
@@ -63,7 +60,7 @@ const OptimizedImage: React.FC<OptimizedImageProps> = ({
   }
 
   return (
-    <Image
+    <img
       src={normalizedSrc}
       alt={alt}
       width={width}
@@ -71,10 +68,9 @@ const OptimizedImage: React.FC<OptimizedImageProps> = ({
       className={className}
       loading={loading}
       sizes={sizes}
-      priority={priority}
       fetchPriority={fetchPriority}
-      unoptimized={unoptimized}
       onError={() => setImageError(true)}
+      style={{ maxWidth: '100%', height: 'auto' }}
     />
   );
 };
