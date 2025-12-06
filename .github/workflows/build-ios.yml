@@ -29,12 +29,37 @@ jobs:
       - name: Sync Capacitor
         run: npx cap sync ios
 
+      - name: Install CocoaPods
+        run: |
+          if ! command -v pod &> /dev/null; then
+            sudo gem install cocoapods
+          fi
+          pod --version
+
+      - name: Install Pods
+        working-directory: ios/App
+        run: |
+          pod install --repo-update
+
+      - name: Verify workspace exists
+        run: |
+          if [ ! -d "ios/App/App.xcworkspace" ]; then
+            echo "Error: App.xcworkspace not found!"
+            exit 1
+          fi
+          echo "✓ Workspace found"
+
       - name: Disable Xcode signing
         run: |
           sed -i '' 's/ProvisioningStyle = Automatic;/ProvisioningStyle = Manual;/g' ios/App/App.xcodeproj/project.pbxproj
           sed -i '' 's/CODE_SIGN_STYLE = Automatic;/CODE_SIGN_STYLE = Manual;/g' ios/App/App.xcodeproj/project.pbxproj
           sed -i '' 's/CODE_SIGN_IDENTITY = "Apple Development";//g' ios/App/App.xcodeproj/project.pbxproj
           sed -i '' 's/DEVELOPMENT_TEAM = .*/DEVELOPMENT_TEAM = "";/' ios/App/App.xcodeproj/project.pbxproj
+
+      - name: Clean Xcode build folder
+        run: |
+          rm -rf ~/Library/Developer/Xcode/DerivedData/*
+          echo "✓ Cleaned Xcode derived data"
 
       - name: Build archive (unsigned)
         run: |
