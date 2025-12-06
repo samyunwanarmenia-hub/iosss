@@ -29,6 +29,102 @@ jobs:
       - name: Sync Capacitor
         run: npx cap sync ios
 
+      - name: Ensure MainViewController exists
+        run: |
+          echo "=== Checking MainViewController.swift ==="
+          
+          # Create MainViewController if it doesn't exist
+          if [ ! -f "ios/App/App/MainViewController.swift" ]; then
+            echo "⚠️  MainViewController.swift not found - creating it..."
+            cat > ios/App/App/MainViewController.swift << 'EOF'
+import UIKit
+import Capacitor
+import WebKit
+
+@objc(MainViewController)
+class MainViewController: CAPBridgeViewController {
+    override open func webViewConfiguration(for instanceConfiguration: InstanceConfiguration) -> WKWebViewConfiguration {
+        let configuration = super.webViewConfiguration(for: instanceConfiguration)
+        configuration.preferences.javaScriptEnabled = true
+        configuration.preferences.javaScriptCanOpenWindowsAutomatically = true
+        configuration.setValue(true, forKey: "allowFileAccessFromFileURLs")
+        configuration.setValue(true, forKey: "allowUniversalAccessFromFileURLs")
+        configuration.allowsInlineMediaPlayback = true
+        configuration.suppressesIncrementalRendering = false
+        return configuration
+    }
+    
+    override open func webView(with frame: CGRect, configuration: WKWebViewConfiguration) -> WKWebView {
+        let webView = super.webView(with: frame, configuration: configuration)
+        webView.allowsBackForwardNavigationGestures = true
+        webView.allowsLinkPreview = false
+        return webView
+    }
+    
+    func applyRuntimePreferences() {
+        guard let webView = bridge?.webView else { return }
+        webView.configuration.preferences.javaScriptEnabled = true
+        webView.configuration.preferences.javaScriptCanOpenWindowsAutomatically = true
+        webView.configuration.setValue(true, forKey: "allowFileAccessFromFileURLs")
+        webView.configuration.setValue(true, forKey: "allowUniversalAccessFromFileURLs")
+    }
+    
+    override open func viewDidLoad() {
+        super.viewDidLoad()
+        applyRuntimePreferences()
+    }
+}
+EOF
+            echo "✅ MainViewController.swift created"
+          else
+            echo "✅ MainViewController.swift exists"
+          fi
+
+      - name: Add MainViewController to Xcode project
+        run: |
+          echo "=== Adding MainViewController to Xcode project ==="
+          
+          # Install xcodeproj gem for manipulating Xcode projects
+          sudo gem install xcodeproj
+          
+          # Ruby script to add the file to the project
+          cat > add_file.rb << 'RUBY'
+require 'xcodeproj'
+
+project_path = 'ios/App/App.xcodeproj'
+project = Xcodeproj::Project.open(project_path)
+
+# Find the App group
+app_group = project.main_group.find_subpath('App', true)
+
+# Check if MainViewController.swift is already in the project
+file_exists = app_group.files.any? { |file| file.path == 'MainViewController.swift' }
+
+unless file_exists
+  puts "Adding MainViewController.swift to project..."
+  
+  # Add file reference
+  file_ref = app_group.new_reference('MainViewController.swift')
+  
+  # Add to App target
+  target = project.targets.find { |t| t.name == 'App' }
+  if target
+    target.add_file_references([file_ref])
+    puts "✅ MainViewController.swift added to target"
+  else
+    puts "⚠️  App target not found"
+  end
+  
+  # Save the project
+  project.save
+  puts "✅ Project saved"
+else
+  puts "✅ MainViewController.swift already in project"
+end
+RUBY
+
+          ruby add_file.rb
+
       - name: Install CocoaPods
         run: |
           if ! command -v pod &> /dev/null; then
@@ -40,8 +136,12 @@ jobs:
         working-directory: ios/App
         run: pod install
 
-      - name: Verify workspace
+      - name: Verify project structure
         run: |
+          echo "=== Verifying files ==="
+          ls -la ios/App/App/*.swift || echo "No Swift files found"
+          echo ""
+          echo "=== Checking workspace ==="
           if [ ! -d "ios/App/App.xcworkspace" ]; then
             echo "❌ Error: App.xcworkspace not found!"
             exit 1
@@ -50,7 +150,6 @@ jobs:
 
       - name: Disable code signing
         run: |
-          # Portable sed commands for macOS
           sed -i.bak 's/ProvisioningStyle = Automatic;/ProvisioningStyle = Manual;/g' ios/App/App.xcodeproj/project.pbxproj
           sed -i.bak 's/CODE_SIGN_STYLE = Automatic;/CODE_SIGN_STYLE = Manual;/g' ios/App/App.xcodeproj/project.pbxproj
           sed -i.bak 's/CODE_SIGN_IDENTITY = "Apple Development";//g' ios/App/App.xcodeproj/project.pbxproj
@@ -62,22 +161,10 @@ jobs:
           rm -rf ~/Library/Developer/Xcode/DerivedData/*
           echo "✅ Cleaned Xcode derived data"
 
-      - name: Check Swift files
-        run: |
-          echo "=== Checking Swift source files ==="
-          if [ -f "ios/App/App/AppDelegate.swift" ]; then
-            echo "✅ AppDelegate.swift exists"
-            echo "First 20 lines:"
-            head -20 ios/App/App/AppDelegate.swift
-          else
-            echo "❌ AppDelegate.swift not found!"
-          fi
-
       - name: Build archive (unsigned)
         run: |
           mkdir -p build
           
-          # Build with xcpretty for better error output
           set -o pipefail
           
           xcodebuild -workspace ios/App/App.xcworkspace \
@@ -99,16 +186,9 @@ jobs:
             echo "❌ Build failed with exit code: $BUILD_EXIT_CODE"
             echo ""
             echo "=== SWIFT COMPILATION ERRORS ==="
-            # Extract actual Swift errors with more context
-            grep -B 2 -A 5 "error:" build.log | grep -v "^--$" || echo "No errors with 'error:' marker"
+            grep "error:" build.log | head -30 || echo "No errors found"
             echo ""
-            echo "=== SWIFT COMPILER OUTPUT ==="
-            grep -i "swift.*compil" build.log | head -20 || echo "No Swift compilation output"
-            echo ""
-            echo "=== FAILED COMMANDS ==="
-            grep -A 3 "following build commands failed" build.log || echo "No failed commands section"
-            echo ""
-            echo "=== RAW ERROR CONTEXT (last 150 lines) ==="
+            echo "=== Last 150 lines ==="
             tail -150 build.log
             exit 1
           fi
@@ -141,7 +221,7 @@ jobs:
           path: build/App-unsigned.ipa
           retention-days: 30
 
-      - name: Upload build logs (always)
+      - name: Upload build logs
         if: always()
         uses: actions/upload-artifact@v4
         with:
@@ -149,20 +229,13 @@ jobs:
           path: build.log
           retention-days: 7
 
-      - name: Show detailed Swift errors (on failure)
+      - name: Show detailed errors (on failure)
         if: failure()
         run: |
           echo "=== DETAILED ERROR ANALYSIS ==="
           echo ""
-          echo "=== All error: lines ==="
-          grep "error:" build.log || echo "No lines with 'error:' found"
+          echo "=== All errors ==="
+          grep "error:" build.log || echo "No errors"
           echo ""
-          echo "=== All warning: lines ==="
-          grep "warning:" build.log | head -20 || echo "No warnings"
-          echo ""
-          echo "=== Swift compilation context ==="
-          # Find Swift compilation sections
-          awk '/SwiftCompile normal arm64/,/\*\* BUILD FAILED \*\*|\*\* ARCHIVE FAILED \*\*/ {print}' build.log | tail -100
-          echo ""
-          echo "=== Checking for common issues ==="
-          grep -i "no such module\|cannot find\|undeclared\|use of unresolved" build.log | head -30 || echo "No common Swift errors found"
+          echo "=== Swift compilation issues ==="
+          grep -i "cannot find.*in scope\|use of unresolved\|no such module" build.log | head -20 || echo "No import errors"
