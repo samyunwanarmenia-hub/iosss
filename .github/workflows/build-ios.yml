@@ -1,5 +1,6 @@
 name: Build iOS IPA
 
+# Workflow to build unsigned iOS IPA file
 on:
   workflow_dispatch:
 
