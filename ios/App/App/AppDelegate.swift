@@ -8,16 +8,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+        // Initialize window if not using SceneDelegate (iOS 12 and earlier, or when SceneDelegate is not configured)
+        if window == nil {
+            window = UIWindow(frame: UIScreen.main.bounds)
+        }
+        
         // Ensure local file access is enabled for the embedded WKWebView (file:// / capacitor://)
         DispatchQueue.main.async {
-            if let mainVC = self.window?.rootViewController as? MainViewController,
-               let webView = mainVC.bridge?.webView {
-                webView.configuration.preferences.javaScriptEnabled = true
-                webView.configuration.preferences.javaScriptCanOpenWindowsAutomatically = true
-                webView.configuration.setValue(true, forKey: "allowFileAccessFromFileURLs")
-                webView.configuration.setValue(true, forKey: "allowUniversalAccessFromFileURLs")
-            } else {
-                (self.window?.rootViewController as? MainViewController)?.applyRuntimePreferences()
+            if let mainVC = self.window?.rootViewController as? MainViewController {
+                mainVC.applyRuntimePreferences()
+                if let webView = mainVC.bridge?.webView {
+                    webView.configuration.preferences.javaScriptEnabled = true
+                    webView.configuration.preferences.javaScriptCanOpenWindowsAutomatically = true
+                    webView.configuration.setValue(true, forKey: "allowFileAccessFromFileURLs")
+                    webView.configuration.setValue(true, forKey: "allowUniversalAccessFromFileURLs")
+                }
             }
         }
         return true

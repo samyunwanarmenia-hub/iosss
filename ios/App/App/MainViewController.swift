@@ -33,5 +33,29 @@ class MainViewController: CAPBridgeViewController {
     override open func viewDidLoad() {
         super.viewDidLoad()
         applyRuntimePreferences()
+        
+        // Debug: Check if bridge is initialized
+        print("🔍 MainViewController viewDidLoad - Bridge: \(String(describing: bridge))")
+        
+        // Debug: Check webView after a delay
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+            if let webView = self.bridge?.webView {
+                print("✅ WebView found: \(webView)")
+                print("📍 Current URL: \(webView.url?.absoluteString ?? "nil")")
+            } else {
+                print("❌ WebView not found!")
+            }
+        }
+    }
+    
+    override open func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        print("🔍 MainViewController viewDidAppear")
+        
+        // Check if webView is loading
+        if let webView = self.bridge?.webView {
+            print("📍 WebView URL: \(webView.url?.absoluteString ?? "nil")")
+            print("📍 WebView isLoading: \(webView.isLoading)")
+        }
     }
 }

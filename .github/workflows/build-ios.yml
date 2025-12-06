@@ -45,52 +45,22 @@ jobs:
           npx cap sync ios
           echo "✅ Capacitor sync completed"
 
-      - name: Fix AppDelegate to remove MainViewController dependency
+      - name: Verify iOS project structure
         run: |
-          echo "Fixing AppDelegate.swift..."
-          mkdir -p ios/App/App
-          printf '%s\n' \
-            'import UIKit' \
-            'import Capacitor' \
-            '' \
-            '@UIApplicationMain' \
-            'class AppDelegate: UIResponder, UIApplicationDelegate {' \
-            '' \
-            '    var window: UIWindow?' \
-            '' \
-            '    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {' \
-            '        return true' \
-            '    }' \
-            '' \
-            '    func applicationWillResignActive(_ application: UIApplication) {' \
-            '    }' \
-            '' \
-            '    func applicationDidEnterBackground(_ application: UIApplication) {' \
-            '    }' \
-            '' \
-            '    func applicationWillEnterForeground(_ application: UIApplication) {' \
-            '    }' \
-            '' \
-            '    func applicationDidBecomeActive(_ application: UIApplication) {' \
-            '    }' \
-            '' \
-            '    func applicationWillTerminate(_ application: UIApplication) {' \
-            '    }' \
-            '' \
-            '    func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey: Any] = [:]) -> Bool {' \
-            '        return ApplicationDelegateProxy.shared.application(app, open: url, options: options)' \
-            '    }' \
-            '' \
-            '    func application(_ application: UIApplication, continue userActivity: NSUserActivity, restorationHandler: @escaping ([UIUserActivityRestoring]?) -> Void) -> Bool {' \
-            '        return ApplicationDelegateProxy.shared.application(application, continue: userActivity, restorationHandler: restorationHandler)' \
-            '    }' \
-            '}' > ios/App/App/AppDelegate.swift
-          echo "AppDelegate.swift fixed"
-          
-      - name: Update Main.storyboard to use CAPBridgeViewController
-        run: |
-          echo "Updating Main.storyboard..."
-          sed -i '' 's/customClass="MainViewController"/customClass="CAPBridgeViewController"/g' ios/App/App/Base.lproj/Main.storyboard || echo "Already using CAPBridgeViewController"
+          echo "Verifying iOS project structure..."
+          if [ ! -f "ios/App/App/AppDelegate.swift" ]; then
+            echo "❌ AppDelegate.swift not found!"
+            exit 1
+          fi
+          if [ ! -f "ios/App/App/MainViewController.swift" ]; then
+            echo "❌ MainViewController.swift not found!"
+            exit 1
+          fi
+          if [ ! -f "ios/App/App/Base.lproj/Main.storyboard" ]; then
+            echo "❌ Main.storyboard not found!"
+            exit 1
+          fi
+          echo "✅ iOS project structure verified"
 
       - name: Install CocoaPods
         run: |
