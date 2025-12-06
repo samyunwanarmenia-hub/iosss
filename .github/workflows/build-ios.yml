@@ -13,6 +13,8 @@ jobs:
 
       - name: Install pnpm
         uses: pnpm/action-setup@v4
+        with:
+          version: 10.0.0
 
       - name: Setup Node
         uses: actions/setup-node@v4
@@ -29,25 +31,6 @@ jobs:
       - name: Sync Capacitor
         run: npx cap sync ios
 
-      - name: Install CocoaPods
-        run: |
-          if ! command -v pod &> /dev/null; then
-            sudo gem install cocoapods
-          fi
-          pod --version
-
-      - name: Install Pods
-        working-directory: ios/App
-        run: pod install
-
-      - name: Verify workspace exists
-        run: |
-          if [ ! -d "ios/App/App.xcworkspace" ]; then
-            echo "Error: App.xcworkspace not found!"
-            exit 1
-          fi
-          echo "✓ Workspace found"
-
       - name: Disable Xcode signing
         run: |
           sed -i '' 's/ProvisioningStyle = Automatic;/ProvisioningStyle = Manual;/g' ios/App/App.xcodeproj/project.pbxproj
@@ -55,25 +38,8 @@ jobs:
           sed -i '' 's/CODE_SIGN_IDENTITY = "Apple Development";//g' ios/App/App.xcodeproj/project.pbxproj
           sed -i '' 's/DEVELOPMENT_TEAM = .*/DEVELOPMENT_TEAM = "";/' ios/App/App.xcodeproj/project.pbxproj
 
-      - name: Clean Xcode build folder
-        run: |
-          rm -rf ~/Library/Developer/Xcode/DerivedData/*
-          echo "✓ Cleaned Xcode derived data"
-
-      - name: Check Xcode version and project structure
-        run: |
-          xcodebuild -version
-          xcrun swift --version
-          echo "=== Checking project files ==="
-          ls -la ios/App/App/AppDelegate.swift
-          ls -la ios/App/App/MainViewController.swift
-          echo "=== Checking Pods ==="
-          ls -la ios/App/Pods/ 2>/dev/null || echo "Pods directory not found (will be created by pod install)"
-
       - name: Build archive (unsigned)
         run: |
-          mkdir -p build
-          echo "=== Starting archive build ==="
           xcodebuild -workspace ios/App/App.xcworkspace \
           -scheme App \
           -configuration Release \
@@ -84,93 +50,17 @@ jobs:
           DEVELOPMENT_TEAM="" \
           CODE_SIGN_IDENTITY="" \
           PROVISIONING_PROFILE_SPECIFIER="" \
-          -showBuildTimingSummary \
-          -verbose \
-          archive 2>&1 | tee build.log
-          
-          BUILD_EXIT_CODE=${PIPESTATUS[0]}
-          echo "=== Build exit code: $BUILD_EXIT_CODE ==="
-          
-          if [ $BUILD_EXIT_CODE -ne 0 ]; then
-            echo "=== Build failed, showing errors ==="
-            echo "=== Swift compilation errors ==="
-            grep -i "error:" build.log | head -30 || echo "No 'error:' found"
-            echo ""
-            echo "=== Last 100 lines of build log ==="
-            tail -100 build.log
-            echo ""
-            echo "=== Searching for Swift errors ==="
-            grep -i "swift.*error\|compilation.*error\|failed.*compile" build.log | head -20 || echo "No Swift errors found in expected format"
-            exit 1
-          fi
-          
-          echo "=== Checking if archive was created ==="
-          if [ -d "build/App.xcarchive" ]; then
-            echo "✓ Archive directory exists"
-            ls -la build/App.xcarchive/
-          else
-            echo "✗ Archive directory NOT found"
-            echo "Checking build directory:"
-            ls -la build/ || echo "Build directory doesn't exist"
-            echo "Searching for .xcarchive files:"
-            find . -name "*.xcarchive" -type d 2>/dev/null || echo "No .xcarchive files found"
-            exit 1
-          fi
-
-      - name: Upload build logs (on failure)
-        if: failure()
-        uses: actions/upload-artifact@v4
-        with:
-          name: build-logs
-          path: build.log
-          retention-days: 7
-          
-      - name: Show detailed build errors
-        if: failure()
-        run: |
-          echo "=== Full error analysis ==="
-          echo "=== All lines containing 'error' (case insensitive) ==="
-          grep -i "error" build.log | head -50 || echo "No errors found"
-          echo ""
-          echo "=== All lines containing 'failed' ==="
-          grep -i "failed" build.log | head -30 || echo "No failures found"
-          echo ""
-          echo "=== Swift compilation failures ==="
-          grep -i "swift.*failed\|compilation.*failed\|build.*failed" build.log | head -30 || echo "No Swift failures found"
-          echo ""
-          echo "=== Last 200 lines of build log ==="
-          tail -200 build.log
+          archive
 
       # Export unsigned IPA (без exportOptions.plist)
-      - name: Verify archive was created
-        if: success()
-        run: |
-          echo "=== Checking archive structure ==="
-          ls -la build/App.xcarchive/ 2>/dev/null || echo "Archive directory not found"
-          ls -la build/App.xcarchive/Products/ 2>/dev/null || echo "Products directory not found"
-          ls -la build/App.xcarchive/Products/Applications/ 2>/dev/null || echo "Applications directory not found"
-          if [ -d "build/App.xcarchive/Products/Applications/App.app" ]; then
-            echo "✓ App.app found in archive"
-            ls -la build/App.xcarchive/Products/Applications/App.app
-          else
-            echo "✗ App.app NOT found in archive"
-            echo "Available files:"
-            find build/App.xcarchive -type f -name "*.app" 2>/dev/null || echo "No .app files found"
-            exit 1
-          fi
-
       - name: Export IPA
-        if: success()
         run: |
           mkdir -p build/Payload
           cp -R build/App.xcarchive/Products/Applications/App.app build/Payload/
           cd build
           zip -r App-unsigned.ipa Payload
-          echo "✓ IPA created: build/App-unsigned.ipa"
-          ls -lh build/App-unsigned.ipa
 
       - name: Upload IPA
-        if: success()
         uses: actions/upload-artifact@v4
         with:
           name: ipa
