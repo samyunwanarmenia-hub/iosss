@@ -93,7 +93,14 @@ jobs:
           
           if [ $BUILD_EXIT_CODE -ne 0 ]; then
             echo "=== Build failed, showing errors ==="
-            grep -A 20 "error:" build.log || cat build.log | tail -50
+            echo "=== Swift compilation errors ==="
+            grep -i "error:" build.log | head -30 || echo "No 'error:' found"
+            echo ""
+            echo "=== Last 100 lines of build log ==="
+            tail -100 build.log
+            echo ""
+            echo "=== Searching for Swift errors ==="
+            grep -i "swift.*error\|compilation.*error\|failed.*compile" build.log | head -20 || echo "No Swift errors found in expected format"
             exit 1
           fi
           
@@ -117,6 +124,22 @@ jobs:
           name: build-logs
           path: build.log
           retention-days: 7
+          
+      - name: Show detailed build errors
+        if: failure()
+        run: |
+          echo "=== Full error analysis ==="
+          echo "=== All lines containing 'error' (case insensitive) ==="
+          grep -i "error" build.log | head -50 || echo "No errors found"
+          echo ""
+          echo "=== All lines containing 'failed' ==="
+          grep -i "failed" build.log | head -30 || echo "No failures found"
+          echo ""
+          echo "=== Swift compilation failures ==="
+          grep -i "swift.*failed\|compilation.*failed\|build.*failed" build.log | head -30 || echo "No Swift failures found"
+          echo ""
+          echo "=== Last 200 lines of build log ==="
+          tail -200 build.log
 
       # Export unsigned IPA (без exportOptions.plist)
       - name: Verify archive was created
