@@ -124,39 +124,48 @@ jobs:
 
       - name: Disable code signing
         run: |
-          # Portable sed commands for macOS
+          echo "Disabling code signing for unsigned build..."
+          # Disable code signing in project.pbxproj
           sed -i.bak 's/ProvisioningStyle = Automatic;/ProvisioningStyle = Manual;/g' ios/App/App.xcodeproj/project.pbxproj
           sed -i.bak 's/CODE_SIGN_STYLE = Automatic;/CODE_SIGN_STYLE = Manual;/g' ios/App/App.xcodeproj/project.pbxproj
           sed -i.bak 's/CODE_SIGN_IDENTITY = "Apple Development";//g' ios/App/App.xcodeproj/project.pbxproj
+          sed -i.bak 's/CODE_SIGN_IDENTITY = "Apple Distribution";//g' ios/App/App.xcodeproj/project.pbxproj
           sed -i.bak 's/DEVELOPMENT_TEAM = .*/DEVELOPMENT_TEAM = "";/' ios/App/App.xcodeproj/project.pbxproj
+          sed -i.bak 's/PROVISIONING_PROFILE_SPECIFIER = .*;//g' ios/App/App.xcodeproj/project.pbxproj
           rm -f ios/App/App.xcodeproj/project.pbxproj.bak
+          echo "✅ Code signing disabled"
 
       - name: Clean build cache
         run: |
           rm -rf ~/Library/Developer/Xcode/DerivedData/*
           echo "✅ Cleaned Xcode derived data"
 
-      - name: Build archive (unsigned)
+      - name: Build iOS app (unsigned)
         run: |
           mkdir -p build
           
-          echo "🔨 Starting Xcode build..."
+          echo "🔨 Building iOS app (unsigned)..."
           echo "Workspace: ios/App/App.xcworkspace"
           echo "Scheme: App"
           echo "Configuration: Release"
+          echo "SDK: iphoneos"
+          echo ""
           
+          # Build the app directly (not archive) to avoid signing requirements
+          # Using -destination generic/platform=iOS for device build
           xcodebuild -workspace ios/App/App.xcworkspace \
             -scheme App \
             -configuration Release \
-            -archivePath build/App.xcarchive \
+            -sdk iphoneos \
+            -destination 'generic/platform=iOS' \
             CODE_SIGNING_ALLOWED=NO \
             CODE_SIGNING_REQUIRED=NO \
+            CODE_SIGN_IDENTITY="" \
             CODE_SIGN_STYLE=Manual \
             DEVELOPMENT_TEAM="" \
-            CODE_SIGN_IDENTITY="" \
             PROVISIONING_PROFILE_SPECIFIER="" \
-            -allowProvisioningUpdates \
-            archive 2>&1 | tee build.log
+            -derivedDataPath build/DerivedData \
+            build 2>&1 | tee build.log
           
           BUILD_EXIT_CODE=${PIPESTATUS[0]}
           
@@ -174,30 +183,64 @@ jobs:
             exit 1
           fi
           
-          echo "✅ Archive build completed successfully"
+          echo "✅ Build completed successfully"
 
-      - name: Verify archive structure
+      - name: Locate built app
         run: |
-          if [ ! -d "build/App.xcarchive/Products/Applications/App.app" ]; then
-            echo "❌ App.app not found in archive"
-            ls -la build/App.xcarchive/Products/Applications/ 2>/dev/null || echo "Applications directory missing"
+          echo "🔍 Locating built App.app..."
+          # Try multiple locations where the app might be
+          APP_PATH=""
+          
+          # Check DerivedData first
+          APP_PATH=$(find build/DerivedData -name "App.app" -type d 2>/dev/null | head -1)
+          
+          # If not found, check build directory
+          if [ -z "$APP_PATH" ]; then
+            APP_PATH=$(find build -name "App.app" -type d 2>/dev/null | head -1)
+          fi
+          
+          # If still not found, check common Xcode build locations
+          if [ -z "$APP_PATH" ]; then
+            APP_PATH=$(find ~/Library/Developer/Xcode/DerivedData -name "App.app" -type d 2>/dev/null | head -1)
+          fi
+          
+          if [ -z "$APP_PATH" ]; then
+            echo "❌ App.app not found in build output"
+            echo ""
+            echo "Searching for any .app files..."
+            find build -name "*.app" -type d 2>/dev/null || echo "No .app files found in build/"
+            echo ""
+            echo "Build log location: build.log"
             exit 1
           fi
-          echo "✅ Archive structure verified"
+          
+          echo "✅ Found App.app at: $APP_PATH"
+          echo "APP_PATH=$APP_PATH" >> $GITHUB_ENV
+          ls -lh "$APP_PATH"
+          echo ""
+          echo "App bundle size:"
+          du -sh "$APP_PATH"
 
       - name: Create IPA
         run: |
           echo "📦 Creating IPA file..."
           mkdir -p build/Payload
-          cp -R build/App.xcarchive/Products/Applications/App.app build/Payload/
+          
+          # Copy the app to Payload directory
+          cp -R "$APP_PATH" build/Payload/
+          
+          # Create IPA
           cd build
           zip -qr App-unsigned.ipa Payload
           cd ..
+          
           echo "✅ IPA created successfully"
           ls -lh build/App-unsigned.ipa
           echo ""
           echo "📊 IPA file size:"
           du -h build/App-unsigned.ipa
+          echo ""
+          echo "📱 IPA file ready: build/App-unsigned.ipa"
 
       - name: Upload IPA artifact
         uses: actions/upload-artifact@v4
