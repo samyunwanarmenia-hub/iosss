@@ -72,6 +72,8 @@ jobs:
 
       - name: Build archive (unsigned)
         run: |
+          mkdir -p build
+          echo "=== Starting archive build ==="
           xcodebuild -workspace ios/App/App.xcworkspace \
           -scheme App \
           -configuration Release \
@@ -84,7 +86,29 @@ jobs:
           PROVISIONING_PROFILE_SPECIFIER="" \
           -showBuildTimingSummary \
           -verbose \
-          archive 2>&1 | tee build.log || (echo "=== Build failed, showing errors ===" && cat build.log | grep -A 20 "error:" && exit 1)
+          archive 2>&1 | tee build.log
+          
+          BUILD_EXIT_CODE=${PIPESTATUS[0]}
+          echo "=== Build exit code: $BUILD_EXIT_CODE ==="
+          
+          if [ $BUILD_EXIT_CODE -ne 0 ]; then
+            echo "=== Build failed, showing errors ==="
+            grep -A 20 "error:" build.log || cat build.log | tail -50
+            exit 1
+          fi
+          
+          echo "=== Checking if archive was created ==="
+          if [ -d "build/App.xcarchive" ]; then
+            echo "✓ Archive directory exists"
+            ls -la build/App.xcarchive/
+          else
+            echo "✗ Archive directory NOT found"
+            echo "Checking build directory:"
+            ls -la build/ || echo "Build directory doesn't exist"
+            echo "Searching for .xcarchive files:"
+            find . -name "*.xcarchive" -type d 2>/dev/null || echo "No .xcarchive files found"
+            exit 1
+          fi
 
       - name: Upload build logs (on failure)
         if: failure()
