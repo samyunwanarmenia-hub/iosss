@@ -1,7 +1,5 @@
-"use client";
-
 import { useState, useCallback } from 'react';
-import { ContactModalType, ProductShowcaseItem, TranslationKeys } from '@/types/global';
+import { ContactModalType, ProductShowcaseItem, TranslationKeys } from '../types/global';
 
 interface UseModalsProps {
   currentLang: string;
