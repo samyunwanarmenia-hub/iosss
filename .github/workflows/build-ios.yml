@@ -95,14 +95,35 @@ jobs:
           retention-days: 7
 
       # Export unsigned IPA (без exportOptions.plist)
+      - name: Verify archive was created
+        if: success()
+        run: |
+          echo "=== Checking archive structure ==="
+          ls -la build/App.xcarchive/ 2>/dev/null || echo "Archive directory not found"
+          ls -la build/App.xcarchive/Products/ 2>/dev/null || echo "Products directory not found"
+          ls -la build/App.xcarchive/Products/Applications/ 2>/dev/null || echo "Applications directory not found"
+          if [ -d "build/App.xcarchive/Products/Applications/App.app" ]; then
+            echo "✓ App.app found in archive"
+            ls -la build/App.xcarchive/Products/Applications/App.app
+          else
+            echo "✗ App.app NOT found in archive"
+            echo "Available files:"
+            find build/App.xcarchive -type f -name "*.app" 2>/dev/null || echo "No .app files found"
+            exit 1
+          fi
+
       - name: Export IPA
+        if: success()
         run: |
           mkdir -p build/Payload
           cp -R build/App.xcarchive/Products/Applications/App.app build/Payload/
           cd build
           zip -r App-unsigned.ipa Payload
+          echo "✓ IPA created: build/App-unsigned.ipa"
+          ls -lh build/App-unsigned.ipa
 
       - name: Upload IPA
+        if: success()
         uses: actions/upload-artifact@v4
         with:
           name: ipa
