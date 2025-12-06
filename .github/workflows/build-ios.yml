@@ -88,7 +88,7 @@ EOF
           sudo gem install xcodeproj
           
           # Ruby script to add the file to the project
-          cat > add_file.rb << 'RUBY'
+          cat > add_file.rb << 'EOF'
 require 'xcodeproj'
 
 project_path = 'ios/App/App.xcodeproj'
@@ -110,18 +110,18 @@ unless file_exists
   target = project.targets.find { |t| t.name == 'App' }
   if target
     target.add_file_references([file_ref])
-    puts "✅ MainViewController.swift added to target"
+    puts "MainViewController.swift added to target"
   else
-    puts "⚠️  App target not found"
+    puts "App target not found"
   end
   
   # Save the project
   project.save
-  puts "✅ Project saved"
+  puts "Project saved"
 else
-  puts "✅ MainViewController.swift already in project"
+  puts "MainViewController.swift already in project"
 end
-RUBY
+EOF
 
           ruby add_file.rb
 
