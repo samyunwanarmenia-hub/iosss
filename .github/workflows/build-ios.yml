@@ -60,6 +60,16 @@ jobs:
           rm -rf ~/Library/Developer/Xcode/DerivedData/*
           echo "✓ Cleaned Xcode derived data"
 
+      - name: Check Xcode version and project structure
+        run: |
+          xcodebuild -version
+          xcrun swift --version
+          echo "=== Checking project files ==="
+          ls -la ios/App/App/AppDelegate.swift
+          ls -la ios/App/App/MainViewController.swift
+          echo "=== Checking Pods ==="
+          ls -la ios/App/Pods/ 2>/dev/null || echo "Pods directory not found (will be created by pod install)"
+
       - name: Build archive (unsigned)
         run: |
           xcodebuild -workspace ios/App/App.xcworkspace \
@@ -72,7 +82,17 @@ jobs:
           DEVELOPMENT_TEAM="" \
           CODE_SIGN_IDENTITY="" \
           PROVISIONING_PROFILE_SPECIFIER="" \
-          archive
+          -showBuildTimingSummary \
+          -verbose \
+          archive 2>&1 | tee build.log || (echo "=== Build failed, showing errors ===" && cat build.log | grep -A 20 "error:" && exit 1)
+
+      - name: Upload build logs (on failure)
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-logs
+          path: build.log
+          retention-days: 7
 
       # Export unsigned IPA (без exportOptions.plist)
       - name: Export IPA
