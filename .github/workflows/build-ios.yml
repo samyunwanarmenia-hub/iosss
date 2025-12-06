@@ -87,26 +87,20 @@ EOF
           # Install xcodeproj gem for manipulating Xcode projects
           sudo gem install xcodeproj
           
-          # Ruby script to add the file to the project
-          cat > add_file.rb << 'EOF'
+          # Create Ruby script
+          cat > add_file.rb <<'ENDRUBY'
 require 'xcodeproj'
 
 project_path = 'ios/App/App.xcodeproj'
 project = Xcodeproj::Project.open(project_path)
 
-# Find the App group
 app_group = project.main_group.find_subpath('App', true)
 
-# Check if MainViewController.swift is already in the project
 file_exists = app_group.files.any? { |file| file.path == 'MainViewController.swift' }
 
 unless file_exists
   puts "Adding MainViewController.swift to project..."
-  
-  # Add file reference
   file_ref = app_group.new_reference('MainViewController.swift')
-  
-  # Add to App target
   target = project.targets.find { |t| t.name == 'App' }
   if target
     target.add_file_references([file_ref])
@@ -114,15 +108,13 @@ unless file_exists
   else
     puts "App target not found"
   end
-  
-  # Save the project
   project.save
   puts "Project saved"
 else
   puts "MainViewController.swift already in project"
 end
-EOF
-
+ENDRUBY
+          
           ruby add_file.rb
 
       - name: Install CocoaPods
